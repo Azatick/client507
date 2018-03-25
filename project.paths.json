@@ -1,0 +1,9 @@
+{
+  "src": "./src",
+    "assets": "{src}/assets",
+      "styles": "{assets}/styles",
+    "templates": "{src}/templates",
+  "webpack": "./webpack",
+  "build": "./build",
+  "test": "./test"
+}

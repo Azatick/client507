@@ -1,0 +1,23 @@
+<template>
+    <p>
+        Hello, {{ name }}
+    </p>
+</template>
+
+<script lang="ts">
+  import Vue from "vue";
+  import Component from "vue-class-component";
+
+  @Component({
+    props: {
+      name: String
+    }
+  })
+  export default class MView extends Vue {
+
+  }
+</script>
+
+<style scoped>
+
+</style>
