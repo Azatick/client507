@@ -4,7 +4,8 @@ const pp = require("project-paths"),
 const plugins = {
 	extractTextPlugin: require("extract-text-webpack-plugin"),
 	definePlugin: webpack.DefinePlugin,
-	depudePluign: webpack.optimize.DedupePlugin,
+	depudePlugin: webpack.optimize.DedupePlugin,
+	uglifyJs: webpack.optimize.UglifyJsPlugin,
 	aggresiveMerging: webpack.optimize.AggressiveMergingPlugin
 };
 
@@ -15,16 +16,35 @@ function getConfig () {
 			app: pp.get("src", "index.ts")
 		},
 
+		context: pp.root(),
+
+		devtool: "cheap-source-map",
+
+		output: {
+			publicPath: "/"
+		},
+
 		plugins: [
-			new plugins.extractTextPlugin("./assets/styles/[name].css", {
-				allChunks: true
-			}),
 			new webpack.DefinePlugin({
 				"process.env": {
 					NODE_ENV: JSON.stringify("production")
 				}
 			}),
-			new plugins.aggresiveMerging()
+			// new plugins.uglifyJs({
+			// 	mangle: true,
+			// 	compress: {
+			// 		warnings: false,
+			// 		pure_getters: true,
+			// 		unsafe: true,
+			// 		unsafe_comps: true,
+			// 		screw_ie8: true
+			// 	},
+			// 	output: {
+			// 		comments: true
+			// 	},
+			// 	exclude: [/\.min.js$/gi]
+			// }),
+			// new plugins.aggresiveMerging()
 		]
 	};
 

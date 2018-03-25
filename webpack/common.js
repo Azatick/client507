@@ -4,7 +4,8 @@ const pp = require("project-paths"),
 
 const plugins = {
 	extractTextPlugin: require("extract-text-webpack-plugin"),
-	htmlWebpackPlugin: require("html-webpack-plugin")
+	htmlWebpackPlugin: require("html-webpack-plugin"),
+	clean: require("webpack-cleanup-plugin")
 };
 
 /**
@@ -55,7 +56,7 @@ module.exports = function (env) {
 				{
 					test: /\.json$/,
 					loader: "json-loader",
-					exclude: [/node_modules/],
+					exclude: [/node_modules/]
 				},
 
 				{
@@ -76,6 +77,15 @@ module.exports = function (env) {
 					loader: "ts-loader",
 					options: {
 						appendTsSuffixTo: [/\.vue$/]
+					}
+				},
+
+				{
+					test: /\.js$/,
+					loader: "babel-loader",
+					exclude: [/node_modules/],
+					query: {
+						presets: ["es2015", "stage-0", "stage-1"]
 					}
 				},
 
@@ -116,15 +126,6 @@ module.exports = function (env) {
 				},
 
 				{
-					test: /\.js$/,
-					exclude: [/node_modules/],
-					use: [
-						"babel-loader",
-						"eslint-loader"
-					]
-				},
-
-				{
 					test: /\.woff2?$|\.ttf$|\.eot$|\.svg$|\.png$|\.jpe?g$|\.gif$/,
 					loader: "file-loader",
 					options: {
@@ -145,11 +146,12 @@ module.exports = function (env) {
 				disable: env == "dev"
 			}),
 			new plugins.htmlWebpackPlugin({
-				title: projectMeta.title,
+				...projectMeta,
 				filename: "index.html",
 				chunks: ["app", "vendors"],
 				template: pp.get("templates", "index.ejs")
-			})
+			}),
+			new plugins.clean()
 		]
 	};
 };
