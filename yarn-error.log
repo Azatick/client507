@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn prod
+  /usr/bin/node /usr/bin/yarn add @types/element-ui --dev
 
 PATH: 
   /home/azatick/bin:/home/azatick/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
@@ -22,7 +22,8 @@ npm manifest:
     "license": "MIT",
     "scripts": {
       "dev": "webpack-dev-server --env.NODE_ENV=dev --inline --port 9000 --open --hot",
-      "build": "cross-env NODE_ENV=prod webpack -p"
+      "build": "cross-env NODE_ENV=prod webpack -p",
+      "prod": "npm run build && node ./prodServer"
     },
     "devDependencies": {
       "@types/vue-router": "^2.0.0",
@@ -73,6 +74,7 @@ npm manifest:
     },
     "dependencies": {
       "axios": "^0.18.0",
+      "element-ui": "^1.4.13",
       "jquery": "^3.3.1",
       "lodash": "^4.17.5"
     }
@@ -389,6 +391,12 @@ Lockfile:
     version "0.1.3"
     resolved "https://registry.yarnpkg.com/async-foreach/-/async-foreach-0.1.3.tgz#36121f845c0578172de419a97dbeb1d16ec34542"
   
+  async-validator@~1.8.1:
+    version "1.8.2"
+    resolved "https://registry.yarnpkg.com/async-validator/-/async-validator-1.8.2.tgz#b77597226e96242f8d531c0d46ae295f62422ba4"
+    dependencies:
+      babel-runtime "6.x"
+  
   async@^1.5.0, async@^1.5.2:
     version "1.5.2"
     resolved "https://registry.yarnpkg.com/async/-/async-1.5.2.tgz#ec6a61ae56480c0c3cb241c95618e20892f9672a"
@@ -608,6 +616,10 @@ Lockfile:
       babel-template "^6.24.1"
       babel-traverse "^6.24.1"
       babel-types "^6.24.1"
+  
+  babel-helper-vue-jsx-merge-props@^2.0.0:
+    version "2.0.3"
+    resolved "https://registry.yarnpkg.com/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-2.0.3.tgz#22aebd3b33902328e513293a8e4992b384f9f1b6"
   
   babel-helpers@^6.24.1:
     version "6.24.1"
@@ -1066,7 +1078,7 @@ Lockfile:
       mkdirp "^0.5.1"
       source-map-support "^0.4.15"
   
-  babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
+  babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
     version "6.26.0"
     resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
     dependencies:
@@ -2145,6 +2157,10 @@ Lockfile:
     version "0.1.3"
     resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   
+  deepmerge@^1.2.0:
+    version "1.5.2"
+    resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-1.5.2.tgz#10499d868844cdad4fee0842df8c7f6f0c95a753"
+  
   define-properties@^1.1.2:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/define-properties/-/define-properties-1.1.2.tgz#83a73f2fea569898fb737193c8f873caf6d45c94"
@@ -2367,6 +2383,15 @@ Lockfile:
   elegant-spinner@^1.0.1:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/elegant-spinner/-/elegant-spinner-1.0.1.tgz#db043521c95d7e303fd8f345bedc3349cfb0729e"
+  
+  element-ui@^1.4.13:
+    version "1.4.13"
+    resolved "https://registry.yarnpkg.com/element-ui/-/element-ui-1.4.13.tgz#d0b055987af0cb937a1135babf4360ae80d4a121"
+    dependencies:
+      async-validator "~1.8.1"
+      babel-helper-vue-jsx-merge-props "^2.0.0"
+      deepmerge "^1.2.0"
+      throttle-debounce "^1.0.1"
   
   elliptic@^6.0.0:
     version "6.4.0"
@@ -7005,6 +7030,10 @@ Lockfile:
     version "2.2.0"
     resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-2.2.0.tgz#38ac676151285b658654581987a0ce1a4490d286"
   
+  throttle-debounce@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/throttle-debounce/-/throttle-debounce-1.0.1.tgz#dad0fe130f9daf3719fdea33dc36a8e6ba7f30b5"
+  
   through2@^2.0.0:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/through2/-/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
@@ -7889,14 +7918,11 @@ Lockfile:
       yeoman-environment "^2.0.5"
 
 Trace: 
-  Error: Command "prod" not found.
+  Error: Couldn't find package "@types/element-ui" on the "npm" registry.
       at new MessageError (/usr/lib/node_modules/yarn/lib/cli.js:186:110)
-      at /usr/lib/node_modules/yarn/lib/cli.js:87307:17
+      at NpmResolver.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:51625:15)
       at Generator.next (<anonymous>)
       at step (/usr/lib/node_modules/yarn/lib/cli.js:98:30)
-      at /usr/lib/node_modules/yarn/lib/cli.js:116:14
-      at new Promise (<anonymous>)
-      at new F (/usr/lib/node_modules/yarn/lib/cli.js:23451:28)
-      at /usr/lib/node_modules/yarn/lib/cli.js:95:12
-      at runCommand (/usr/lib/node_modules/yarn/lib/cli.js:87312:22)
-      at Object.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:87412:14)
+      at /usr/lib/node_modules/yarn/lib/cli.js:109:13
+      at <anonymous>
+      at process._tickCallback (internal/process/next_tick.js:118:7)

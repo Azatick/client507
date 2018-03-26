@@ -9,12 +9,19 @@ import "./assets/styles";
 import MVC from "./vue/mvc";
 import App from "./vue/App.vue";
 
+import BootstrapVue from 'bootstrap-vue';
+
+Vue.use(BootstrapVue);
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
 new Vue({
     render: h => h(App),
     store,
     router: createRouter([
         {
-            path: "/",
+            path: "/template",
             name: "template",
             component: MVC.Template.Controller
         }
