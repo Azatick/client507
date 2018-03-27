@@ -1,6 +1,6 @@
 <template>
     <div>
-      <input type="text" @input="onInput" v-model="name">
+      <input type="text" v-model="name">
     </div>
 </template>
 
@@ -10,16 +10,19 @@
 
   @Component({
     computed: {
-      name () {
-        return this.$store.getters['test/getName'];
+      name: {
+        get () {
+          return this.$store.getters['Test/getName'];
+        },
+
+        set (value: string) {
+          this.$store.commit('test/changeName', value);
+        }
       }
     }
   })
   export default class MView extends Vue {
 
-    onInput (event) {
-      this.$store.commit('test/changeName', event.target.value);
-    }
   }
 </script>
 

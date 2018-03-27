@@ -28,15 +28,6 @@
       }) as Promise<String>;
     }
 
-    async submitRegister () {
-      let response = Api.Auth.register({
-        password: "",
-        passpostSeries: "",
-        firstName: "",
-        lastName: ""
-      });
-    }
-
     mounted () {
       console.log(this.$store.state);
     }

@@ -1,6 +1,7 @@
 import { StoreOptions } from "vuex";
 
 export default {
+    namespaced: true,
 
     state: {
         name: "fjdsfnskdj"
