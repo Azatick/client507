@@ -1,13 +1,13 @@
 const pp = require("project-paths"),
 	webpack = require("webpack");
 
-const plugins = {
-	extractTextPlugin: require("extract-text-webpack-plugin"),
-	definePlugin: webpack.DefinePlugin,
-	depudePlugin: webpack.optimize.DedupePlugin,
-	uglifyJs: webpack.optimize.UglifyJsPlugin,
-	aggresiveMerging: webpack.optimize.AggressiveMergingPlugin
-};
+// const plugins = {
+// 	extractTextPlugin: require("extract-text-webpack-plugin"),
+// 	definePlugin: webpack.DefinePlugin,
+// 	depudePlugin: webpack.optimize.DedupePlugin,
+// 	uglifyJs: webpack.optimize.UglifyJsPlugin,
+// 	aggresiveMerging: webpack.optimize.AggressiveMergingPlugin
+// };
 
 function getConfig () {
 

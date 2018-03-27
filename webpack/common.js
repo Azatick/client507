@@ -25,7 +25,7 @@ module.exports = function (env) {
 		app: pp.getA("src", "index.ts")
 	};
 
-	if (dependencies.length && env !== "prod") entry.vendors = dependencies;
+	if (dependencies.length) entry.vendors = dependencies;
 
 	return {
 		entry,
@@ -148,7 +148,7 @@ module.exports = function (env) {
 			new plugins.htmlWebpackPlugin({
 				...projectMeta,
 				filename: "index.html",
-				chunks: ["app", "vendors"],
+				chunks: ["vendors", "app"],
 				template: pp.get("templates", "index.ejs")
 			}),
 			new plugins.clean()
