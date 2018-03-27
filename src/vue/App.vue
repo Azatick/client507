@@ -1,8 +1,6 @@
 <template>
     <div>
-        <h1>Hello, Vue!</h1>
-
-        <router-view/>
+        <MHeader username="12"/>
     </div>
 </template>
 
@@ -10,12 +8,26 @@
     import Vue from 'vue';
     import Component from "vue-class-component";
 
-    @Component
+    import Components from "./components";
+    
+    @Component({
+        components: {
+            MHeader: Components.Layout.Header
+        }
+    })
     export default class App extends Vue {
         name = "app";
 	}
 </script>
 
 <style lang="scss">
+    .main {
+        min-height: 500px;
+    }
 
+    .sidebar {
+        height: 500px;
+        width: 50px;
+        background: #000;
+    }
 </style>
