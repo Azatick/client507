@@ -18,6 +18,9 @@ export default class AxiosWrapper {
         return await axios.patch(path, options);
     }
 
+    static async put<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+        return await axios.put(path, options);
+    }
 }
 
 export interface AxiosRequestConfig<ParamsT> {
