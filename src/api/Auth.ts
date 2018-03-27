@@ -21,7 +21,7 @@ export default class Auth extends AxiosWrapper {
     }
 
     static async accesToken (auth_token: string) {
-        return (await this.post<String, Number>("accesToken", {
+        return (await this.post<String, Number>("accessToken", {
           params: auth_token
         })).data;
     }
