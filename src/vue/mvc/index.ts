@@ -1,5 +1,5 @@
-import Template from "./template";
+import Profile from "./profile";
 
 export default {
-  Template
+  Profile
 }

@@ -1,21 +1,23 @@
 import axios, { AxiosResponse, AxiosAdapter, AxiosBasicCredentials, AxiosTransformer, AxiosProxyConfig, CancelToken } from "axios";
 
+const api = "http://itis-mobile.azurewebsites.net/api/"
+
 export default class AxiosWrapper {
 
     static async get<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.get(path, options);
+        return await axios.get(`${api}${path}`, options);
     }
 
     static async post<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.post(path, options);
+        return await axios.post(`${api}${path}`, options);
     }
 
     static async delete<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.delete(path, options);
+        return await axios.delete(`${api}${path}`, options);
     }
 
     static async patch<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.patch(path, options);
+        return await axios.patch(`${api}${path}`, options);
     }
 
     static async put<ParamsType, DataType> (path: string, options?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
