@@ -21,9 +21,11 @@ new Vue({
     store,
     router: createRouter([
         {
-            path: "/template",
-            name: "template",
-            component: MVC.Template.Controller
+            path: "/profile",
+            meta: {
+                role: ["admin", "user", "support"]
+            },
+            component: MVC.Profile.Controller
         }
     ])
 }).$mount("#app");

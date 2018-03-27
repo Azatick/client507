@@ -1,6 +1,7 @@
 <template>
     <div>
-        <MHeader username="12"/>
+        <MHeader/>
+        <router-view/>
     </div>
 </template>
 
@@ -17,6 +18,7 @@
     })
     export default class App extends Vue {
         name = "app";
+
 	}
 </script>
 

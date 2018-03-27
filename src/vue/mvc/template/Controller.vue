@@ -18,11 +18,11 @@
     name: String = "Guest";
 
     async getUsername (name: String) : Promise<String> {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          resolve(name);
-        }, 2000);
-      }) as Promise<String>;
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(name);
+            }, 2000);
+        }) as Promise<String>;
     }
 
     async mounted () {
