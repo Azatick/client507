@@ -14,6 +14,18 @@ export default class Auth extends AxiosWrapper {
         })).data;
     }
 
+    static async logout (auth_token: string) {
+        return (await this.post<String, Number>("logout", {
+          params: auth_token
+        })).data;
+    }
+
+    static async accesToken (auth_token: string) {
+        return (await this.post<String, Number>("accesToken", {
+          params: auth_token
+        })).data;
+    }
+
 }
 
 export interface RegisterAccount {
@@ -27,6 +39,10 @@ export interface RegisterAccount {
 export interface AuthRequest {
     userName: string;
     password: string;
+}
+
+export interface DeadTokenRequest {
+    auth_token: string;
 }
 
 export interface AuthResponse {
