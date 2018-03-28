@@ -1,6 +1,12 @@
 <template>
-    <div>
+    <!-- Показать страницу без обертки  -->
+    <div v-if="ignoreLayout">
+        <router-view/>
+    </div>
+    <!-- Показать страницу с оберткой -->    
+    <div v-else>
         <MHeader/>
+        {{ route }}
         <router-view/>
     </div>
 </template>
@@ -19,6 +25,13 @@
     export default class App extends Vue {
         name = "app";
 
+        get route () {
+            return this.$route;
+        }
+
+        get ignoreLayout () {
+            return this.route.meta.ignoreLayout;
+        }
 	}
 </script>
 
