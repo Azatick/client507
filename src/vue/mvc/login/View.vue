@@ -10,6 +10,7 @@
   import Vue from "vue";
   import Components from '../../components';
   import Component from "vue-class-component";
+  import {log} from "../../../annotation/vue/log";
 
   import * as $ from 'jquery';
 
@@ -18,10 +19,13 @@
       MButton: Components.Abstract.Button
     }
   })
+
   export default class MView extends Vue {
 
+    @log 
     onClick () {
       console.log('aa');
+      return 1
     }
 
     mounted () {
