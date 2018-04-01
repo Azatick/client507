@@ -1,6 +1,9 @@
 <template>
     <div>
         <MHeader username="12"/>
+        <div class="cont">
+          <Sidebar/>
+        </div>
     </div>
 </template>
 
@@ -9,10 +12,11 @@
     import Component from "vue-class-component";
 
     import Components from "./components";
-    
+
     @Component({
         components: {
-            MHeader: Components.Layout.Header
+            MHeader: Components.Layout.Header,
+            Sidebar: Components.Layout.Sidebar
         }
     })
     export default class App extends Vue {
@@ -21,13 +25,14 @@
 </script>
 
 <style lang="scss">
-    .main {
-        min-height: 500px;
+    body{
+      min-height: 100vh;
     }
-
+    .cont {
+      display: flex;
+      flex-direction: column;
+    }
     .sidebar {
-        height: 500px;
-        width: 50px;
-        background: #000;
+      min-height: calc(100vh - 56px);
     }
 </style>
