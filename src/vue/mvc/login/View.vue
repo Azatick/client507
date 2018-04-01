@@ -1,7 +1,7 @@
 <template>
     <div class="login-form">
       <div>
-        <MButton>Войти</MButton>
+        <MButton @click.native="onClick">Войти</MButton>
       </div>
       <divider text="Или"/>
       <div class="login-form__footer">
@@ -15,7 +15,7 @@
   import Vue from "vue";
   import Components from '../../components';
   import Component from "vue-class-component";
-  import {log} from "../../../annotation/vue/log";
+  import VA from "../../../annotations/vue";
 
   import * as $ from 'jquery';
 
@@ -28,7 +28,7 @@
 
   export default class MView extends Vue {
 
-    @log 
+    @VA.Log
     onClick () {
       console.log('aa');
       return 1

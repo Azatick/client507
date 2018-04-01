@@ -6,7 +6,7 @@
   import Vue from "vue";
   import Component from "vue-class-component";
   
-  import {Secured} from "../../../annotation/vue/secured";
+  import VA from "../../../annotations/vue";
   import MView from "./View.vue";
 
   @Component({
@@ -31,7 +31,7 @@
       this.name = await this.getUsername('Azat');
     }
 
-    @Secured(['guest'])
+    @VA.Secured(['guest'])
     async created() {}
   }
 </script>

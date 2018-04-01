@@ -1,8 +1,9 @@
 import auth from '../../api/Auth';
 
-export function Secured(roles?: String[]) {
+export default function Secured(roles?: String[]) {
     return (target: any, propertyKey: string, descriptor: any) => {
         let oldFunc = descriptor.value;
+        console.log(target);
         descriptor.value = async function () {
             var res = await auth.accesToken(
                 localStorage.getItem("auth_token")

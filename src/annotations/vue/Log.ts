@@ -1,4 +1,4 @@
-export function log(target: any, key: string, value: any) {
+export default function Log(target: any, key: string, value: any) {
     return {
         value: function (...args: any[]) {
             var a = args.map(a => JSON.stringify(a)).join();

@@ -1,5 +1,7 @@
-import Inject from './Inject';
+import Log from './Log';
+import Secured from './Secured';
 
 export default {
-    Inject
+    Log,
+    Secured
 }
