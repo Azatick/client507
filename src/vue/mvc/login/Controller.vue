@@ -5,7 +5,8 @@
 <script lang="ts">
   import Vue from "vue";
   import Component from "vue-class-component";
-
+  
+  import {Secured} from "../../../annotation/vue/secured";
   import MView from "./View.vue";
 
   @Component({
@@ -13,6 +14,7 @@
       MView
     }
   })
+
   export default class Controller extends Vue {
 
     name: String = "Guest";
@@ -29,6 +31,8 @@
       this.name = await this.getUsername('Azat');
     }
 
+    @Secured(['guest'])
+    async created() {}
   }
 </script>
 

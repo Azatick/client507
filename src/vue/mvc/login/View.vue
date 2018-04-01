@@ -15,6 +15,7 @@
   import Vue from "vue";
   import Components from '../../components';
   import Component from "vue-class-component";
+  import {log} from "../../../annotation/vue/log";
 
   import * as $ from 'jquery';
 
@@ -24,10 +25,13 @@
       Divider: Components.Abstract.Divider
     }
   })
+
   export default class MView extends Vue {
 
+    @log 
     onClick () {
       console.log('aa');
+      return 1
     }
 
     mounted () {

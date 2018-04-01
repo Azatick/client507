@@ -3,27 +3,29 @@ import AxiosWrapper from "./AxiosWrapper";
 export default class Auth extends AxiosWrapper {
 
     static async register (account: RegisterAccount) {
-        return (await this.post<RegisterAccount, string>("registration", {
+        var result = (await this.post<RegisterAccount, AuthResponse>("registration", {
             params: account
         })).data;
+        localStorage.setItem('auth_token', result.auth_token);
+        return result;
     }
 
     static async login (auth: AuthRequest) {
-        return (await this.post<AuthRequest, AuthResponse>("login", {
+        var result = (await this.post<AuthRequest, AuthResponse>("login", {
           params: auth
         })).data;
+        localStorage.setItem('auth_token', result.auth_token) ;
+        return result;
     }
 
     static async logout (auth_token: string) {
-        return (await this.post<String, Number>("logout", {
-          params: auth_token
-        })).data;
+        localStorage.removeItem('auth_token');
     }
 
     static async accesToken (auth_token: string) {
-        return (await this.post<String, Number>("accessToken", {
+        return (await this.post<String, String>("accessToken", {
           params: auth_token
-        })).data;
+        }));
     }
 
 }
