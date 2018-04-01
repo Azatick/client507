@@ -7,7 +7,8 @@ import "./assets/styles";
 
 //components
 import MVC from "./vue/mvc";
-import App from "./vue/App.vue";
+import Components from "./vue/components";
+import EntryInApp from "./vue/EntryInApp.vue";
 
 import BootstrapVue from 'bootstrap-vue';
 
@@ -18,7 +19,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 
 new Vue({
-    render: h => h(App),
+    render: h => h(EntryInApp),
     store,
     router: createRouter([
         {
@@ -35,7 +36,10 @@ new Vue({
             meta: {
                 ignoreLayout: true
             },
-            component: MVC.Login.Controller
+            components: {
+                default: MVC.Login.Controller,
+                wrapper: Components.Wrappers.AuthWrapper
+            }
         },
         {
             path: "/signup",
@@ -43,7 +47,10 @@ new Vue({
             meta: {
                 ignoreLayout: true
             },
-            component: MVC.Signup.Controller
+            components: {
+                default: MVC.Signup.Controller,
+                wrapper: Components.Wrappers.AuthWrapper
+            }
         }
     ])
 }).$mount("#app");
