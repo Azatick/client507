@@ -1,22 +1,22 @@
-import Vue from 'vue';
-import createRouter from './router';
-import store from './vuex/store';
+import Vue from 'vue'
+import createRouter from './router'
+import store from './vuex/store'
 
 // styles
-import "./assets/styles";
+import "./assets/styles"
 
 //components
-import MVC from "./vue/mvc";
-import Components from "./vue/components";
-import EntryInApp from "./vue/EntryInApp.vue";
+import MVC from "./vue/mvc"
+import Components from "./vue/components"
+import EntryInApp from "./vue/EntryInApp.vue"
 
-import BootstrapVue from 'bootstrap-vue';
+import BootstrapVue from 'bootstrap-vue'
+Vue.use(BootstrapVue)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(BootstrapVue);
-
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-
+import VueValidators from './utils/validators'
+Vue.use(VueValidators)
 
 new Vue({
     render: h => h(EntryInApp),

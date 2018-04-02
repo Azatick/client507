@@ -5,7 +5,7 @@
   "repository": "https://11507.visualstudio.com/Project%2011-507/_git/11-507%20Client",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --env.NODE_ENV=dev --inline --port 9000 --open --hot",
+    "dev": "webpack-dev-server --env.NODE_ENV=dev --inline --content-base --port 9000 --open --hot",
     "build": "cross-env NODE_ENV=prod webpack -p",
     "prod": "npm run build && node ./prodServer"
   },

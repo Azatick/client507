@@ -1,7 +1,11 @@
 <template>
     <div class="login-form">
+      <MForm :onSubmit="onSubmit" >
+        <MInput label="E-mail адрес" isRequired text="Ваш постоянный адрес почты" name="email" :validate="v => $validators.email(v)"/>
+        <MButton type="submit">Отправить</MButton>
+      </MForm>
       <div>
-        <MButton @click.native="onClick">Войти</MButton>
+        <MButton @click.native="onClick('test text')">Войти</MButton>
       </div>
       <divider text="Или"/>
       <div class="login-form__footer">
@@ -12,29 +16,39 @@
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import Components from '../../components';
-  import Component from "vue-class-component";
-  import VA from "../../../annotations/vue";
-
-  import * as $ from 'jquery';
+  import Vue from "vue"
+  import Components from '../../components'
+  import Component from "vue-class-component"
+  import VA from '../../../annotations/vue'
 
   @Component({
     components: {
       MButton: Components.Abstract.Button,
-      Divider: Components.Abstract.Divider
+      Divider: Components.Abstract.Divider,
+      MInput: Components.Abstract.MInput,
+      MForm: Components.Abstract.MForm
     }
   })
-
   export default class MView extends Vue {
 
-    @VA.Log
-    onClick () {
-      console.log('aa');
-      return 1
+    onClick (text: string) {
+      console.log(this['changeValue'])
     }
 
     mounted () {
+        console.log(this['$validators']);
+    }
+
+    created () {
+        console.log(this)
+    }
+
+    async onSubmit (formValue: any) {
+        return new Promise((res, rej) => {
+            setTimeout(() => {
+                console.log(formValue);
+            }, 2000)
+        })
     }
 
   }

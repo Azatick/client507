@@ -1,5 +1,5 @@
 <template>
-    <transition name="fade" mode="out-in" v-on:after-enter="afterEnter" appear>
+    <transition name="fade" mode="out-in" appear>
         <router-view name="wrapper">
             <router-view/>
         </router-view>
@@ -10,9 +10,6 @@
     import Vue from 'vue'
     
     export default class EntryInApp extends Vue {
-        afterEnter (el) {
-            console.log(el);
-        }
     }
 </script>
 
