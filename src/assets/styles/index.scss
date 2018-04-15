@@ -1,3 +1,46 @@
 body {
-  background: yellow;
+    background: rgb(245, 248, 252) !important;
+}
+
+.img_tariffs {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/svg/002-tools.svg);
+}
+
+.img_support {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/svg/012-chat-1.svg);
+}
+
+.img_profile {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/svg/user.svg);
+}
+
+.img_refresh {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-left: 10px;
+    background-image: url(../../assets/svg/003-stopclock.svg);
+}
+
+.img_right_arrow {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/svg/right-arrow.svg);
+}
+
+.img_down_arrow {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url(../../assets/svg/down-arrow.svg);
 }
