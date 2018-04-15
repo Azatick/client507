@@ -8,7 +8,6 @@
 	import Vue from 'vue';
 	import Component, { mixins } from "vue-class-component";
 	import Mixins from "../../mixins";
-	import VueTypes from "vue-types";
 
 	@Component
 	export default class MButton extends mixins(Mixins.DynamicProps) {

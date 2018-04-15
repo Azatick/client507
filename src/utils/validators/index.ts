@@ -1,43 +1,43 @@
 import {Vue} from "vue/types/vue";
 
-export function required(value: string) {
-    return validate(!!value.length, {
-        errorMessage: 'Обязательное поле'
-    })
+export function required(message?: string) {
+    return validate(v => !!v.length, message || 'Обязательное поле')
 }
 
-export function email (value: string) {
+export function email (message?: string) {
     let reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-    return validate(reg.test(value), {
-        errorMessage: `Введен неправильный e-mail адрес`,
-        successMessage: "Введенный e-mail адрес корректный"
-    });
+    return validate(v => reg.test(v), message || `Введен неправильный e-mail адрес`)
 }
 
-export function max (value: string, max: number) {
-    return validate(value.length <= max, {
-        errorMessage: `Максимальное допустимое число символов ${max}`,
-        successMessage: `Введенное значение корректно`
-    })
+export function max (max: number, message?: string) {
+    return validate(v => v.length <= max, message || `Максимальное число допустимых символов ${max}`)
 }
 
-export function min (value: string, min: number) {
-    return validate(value.length >= min, {
-        errorMessage: `Минимальное число символов ${max}`,
-        successMessage: `Введенное значение корректно`
-    })
+export function min (min: number, message?: string) {
+    return validate(v => v.length >= min, message || `Минимальное число символов ${min}`)
 }
 
-function validate (result: boolean, messages: { errorMessage: string, successMessage?: string }) : ValidateResult {
-    return {
-        hasError: !result,
-        ...messages
+export function equalTo (value: string, message: string) {
+    return validate(v => v == value, message)
+}
+
+export function regexp (reg: RegExp, message: string) {
+    return validate(v => reg.test(v.toString()), message)
+}
+
+function validate (validate: (value: any) => boolean, errorMessage: string) : (value: any) => ValidateResult {
+    return function (value) {
+        return {
+            hasError: !validate(value),
+            errorMessage
+        } as ValidateResult
     }
 }
 
+type validateReturn<T> = (value: T) => ValidateResult
+
 export interface ValidateResult {
     errorMessage?: string;
-    successMessage?: string;
     hasError?: boolean;
 }
 
@@ -49,7 +49,9 @@ const VueValidators = {
                     required,
                     email,
                     max,
-                    min
+                    min,
+                    equalTo,
+                    regexp
                 }
             })
         }
@@ -59,10 +61,12 @@ const VueValidators = {
 declare module 'vue/types/vue' {
     interface Vue {
         $validators: {
-            required: (value: string) => ValidateResult,
-            email: (value: string) => ValidateResult,
-            max: (value: string, max: number) => ValidateResult,
-            min: (value: string, min: number) => ValidateResult
+            required: (message?: string) => validateReturn<any>,
+            email: (message?: string) => validateReturn<string>,
+            max: (max: number, message?: string) => validateReturn<string>,
+            min: (min: number, message?: string) => validateReturn<string>,
+            equalTo: (value: string, message: string) => validateReturn<string>,
+            regexp: (reg: RegExp, message: string) => validateReturn<any>
         }
     }
 }

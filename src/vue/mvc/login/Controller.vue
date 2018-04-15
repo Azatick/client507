@@ -1,39 +1,26 @@
 <template>
-    <MView :name="name" />
+    <MView :user="user"/>
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import Component from "vue-class-component";
-  
-  import VA from "../../../annotations/vue";
-  import MView from "./View.vue";
+    import Vue from "vue";
+    import Component from "vue-class-component";
 
-  @Component({
-    components: {
-      MView
+    import VA from "../../../annotations/vue";
+    import MView from "./View.vue";
+    import User from "../../../models/User";
+    import {Model, Watch} from "vue-property-decorator";
+
+    @Component({
+        components: {
+            MView
+        }
+    })
+    export default class Controller extends Vue {
+
+        user = {};
+
     }
-  })
-
-  export default class Controller extends Vue {
-
-    name: String = "Guest";
-
-    async getUsername (name: String) : Promise<String> {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(name);
-            }, 2000);
-        }) as Promise<String>;
-    }
-
-    async mounted () {
-      this.name = await this.getUsername('Azat');
-    }
-
-    @VA.Secured(['guest'])
-    async created() {}
-  }
 </script>
 
 <style>

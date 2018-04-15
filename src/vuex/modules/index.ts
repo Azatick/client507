@@ -1,5 +1,5 @@
-import Test from "./Test";
+import Messages from "./Messages"
 
 export default {
-    Test
+    Messages
 }

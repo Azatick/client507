@@ -1,15 +1,21 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import {Prop} from "vue-property-decorator";
+import {Prop, Watch} from "vue-property-decorator";
 import {ValidateResult} from "../../utils/validators";
 import MFormElement from '../components/abstract/MFormElement.vue'
 
 @Component({
     inject: {
-        formValue: {
-            default: { hasError: false, values: {} }
+        model: {
+            default: {}
         },
         onFormChange: {
+            default () {}
+        },
+        blockForm: {
+            default () {}
+        },
+        addValidatorToForm: {
             default () {}
         }
     },
@@ -19,11 +25,14 @@ import MFormElement from '../components/abstract/MFormElement.vue'
 })
 export default class FormElement extends Vue {
 
-    // injections
-    formValue: FormModel
-    onFormChange: (name: string, value: any, validateResult: boolean) => void
+    //-- injections
+    model: any;
+    onFormChange: (name: string, value: any) => void
+    blockForm: (state: boolean) => void
+    addValidatorToForm: (key: string, validate: (value: string) => void) => void
+    //--
 
-    @Prop(Boolean)
+    @Prop()
     isRequired: boolean
     @Prop()
     label: string
@@ -32,32 +41,52 @@ export default class FormElement extends Vue {
     @Prop()
     name: string
     @Prop()
-    validate: (value: string) => ValidateResult
+    validate: ((value: any) => ValidateResult)[]
 
-    validateResult: ValidateResult = {};
+    validationResult: ValidateResult = {};
 
-    get validateState () {
-        return this.validateResult.hasError !== undefined ? !this.validateResult.hasError : undefined;
-    }
+    blured: boolean = false;
 
     get value () : any {
-        return this.formValue.values[this.name]
+        this.blured && this.validation(this.model[this.name])
+        return this.model[this.name] || ""
+    }
+
+    validation (value: any) {
+        this.blured = true;
+        for (let i = 0; i < this.validate.length; i++) {
+            let v = this.validate[i](value);
+            if (v.hasError) {
+                this.validationResult = v
+                this.blockForm(true)
+                break;
+            } else {
+                this.validationResult = { hasError: false }
+                this.blockForm(false)
+            }
+        }
+    }
+
+    mounted () {
+        if (!this.model[name]) this.onFormChange(this.name, "")
+        this.addValidatorToForm(this.name, this.validation)
+    }
+
+    blurElement () {
+        this.blured = true
     }
 
     set value (newValue: any) {
-        let hasError = false;
-        if (this.isRequired) {
-            this.validateResult = this.$validators.required(newValue);
-        }
-        if (this.validate) {
-            this.validateResult = this.validate(newValue)
-        }
-        this.onFormChange && this.onFormChange(this.name, newValue, !this.validateState)
+        this.blured && this.validation(newValue)
+        this.onFormChange && this.onFormChange(this.name, newValue)
     }
 
-}
+    get errorMessage () : string {
+        return this.validationResult.errorMessage
+    }
 
-export interface FormModel {
-    hasError: boolean;
-    values: any;
+    get hasError () : boolean {
+        return this.validationResult.hasError;
+    }
+
 }

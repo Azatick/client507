@@ -20,6 +20,7 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-preset-stage-1": "^6.24.1",
+    "core-decorators": "^0.20.0",
     "cross-env": "^5.1.4",
     "css-hot-loader": "^1.3.8",
     "css-loader": "^0.28.11",
@@ -34,6 +35,7 @@
     "ignore-loader": "^0.1.2",
     "json-loader": "^0.5.7",
     "node-sass": "^4.8.3",
+    "nonenumerable": "^1.1.1",
     "project-paths": "https://github.com/Azatick/project-paths",
     "resolve-url-loader": "^2.3.0",
     "sass-bulk-import-loader": "^0.1.1",
@@ -61,7 +63,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.2",
-    "element-ui": "^1.4.13",
+    "element-ui": "^2.3.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.5"
   }

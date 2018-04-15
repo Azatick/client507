@@ -1,41 +1,70 @@
 <template>
-  	<b-form @submit.prevent="onSubmitForm" class="form">
-		<slot/>
-  	</b-form>
+    <b-form @submit.prevent="onSubmitForm" class="form">
+        <slot/>
+        <div>
+
+        </div>
+    </b-form>
 </template>
 
 <script lang="ts">
-	import Vue from 'vue';
-    import {Component, Prop, Provide} from 'vue-property-decorator';
-    import {FormModel} from "../../mixins/FormElement";
+    import Vue from 'vue';
+    import {Component, Prop, Provide, Watch} from 'vue-property-decorator';
+    import {ValidateResult} from "../../../utils/validators";
 
-	@Component
-	export default class MForm extends Vue {
+    @Component
+    export default class MForm extends Vue {
 
-		form: FormModel = {
-		    hasError: false,
-			values: {}
-		};
+        @Prop()
+        @Provide()
+        model: any
 
-		@Prop()
-		onSubmit: (formValue: any) => Promise<void>
+        formBlocked: boolean = true
+        allValidators: { [key: string]: (value: any) => void } = {}
 
-		async onSubmitForm () {
-		    await this.onSubmit(this.form)
-		}
+        @Prop()
+        onSubmit: (formValue: any) => Promise<void>
 
-		@Provide()
-		onFormChange (key: string, value: any, validateResult: boolean) {
-		    Vue.set(this.form.values, key, value)
-		    Vue.set(this.form, 'hasError', validateResult)
-		}
+        /**
+         * Осуществляет отправку формы, если нет ошибки валидации
+         * Фактически выполняет функцию onSubmit из prop
+         * определенную в контроллере
+         * @returns {Promise<void>}
+         */
+        async onSubmitForm() {
+            this.validateAll()
+            if (!this.formBlocked) {
+                await this.onSubmit(this.model)
+            }
+        }
 
-	}
+        validateAll () {
+            Object.keys(this.allValidators).map(key => {
+                this.allValidators[key](this.model[key])
+            })
+        }
+
+        @Provide()
+        onFormChange(key: string, value: any) {
+            Vue.set(this.model, key, value);
+        }
+
+        @Provide()
+        blockForm (state: boolean) {
+            this.formBlocked = state;
+        }
+
+        @Provide()
+        addValidatorToForm (key: string, validate: (value: string) => void) {
+            this.allValidators[key] = validate
+        }
+
+    }
 </script>
 
 <style lang="scss">
-	.form {
-		
-	}
+    .form {
+
+    }
 </style>
 

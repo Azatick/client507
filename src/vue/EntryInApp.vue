@@ -8,7 +8,9 @@
 
 <script lang="ts">
     import Vue from 'vue'
-    
+
+    import Components from './components';
+
     export default class EntryInApp extends Vue {
     }
 </script>
