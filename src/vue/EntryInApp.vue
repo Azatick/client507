@@ -1,16 +1,25 @@
 <template>
     <transition name="fade" mode="out-in" appear>
-        <router-view name="wrapper">
-            <router-view/>
-        </router-view>
+        <MessagesProvider>
+            <router-view name="wrapper">
+                <router-view/>
+            </router-view>
+        </MessagesProvider>
     </transition>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
 
-    import Components from './components';
+    import Components from './components'
+    import MessagesProvider from './mware/MessagesProvider.vue'
+    import {Component} from "vue-property-decorator";
 
+    @Component({
+        components: {
+            MessagesProvider
+        }
+    })
     export default class EntryInApp extends Vue {
     }
 </script>

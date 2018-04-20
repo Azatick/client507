@@ -61,6 +61,7 @@
     "webpack-hot-middleware": "^2.21.2"
   },
   "dependencies": {
+    "attrchange": "^1.0.1",
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.2",
     "element-ui": "^2.3.2",

@@ -10,7 +10,7 @@
     import User from "../../../models/User"
     import Api from '../../../api'
     import Exceptions from '../../../exceptions'
-    import Message from "../../../annotations/vue/Message";
+    import Message, {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
 
     @Component({
         components: {
@@ -19,19 +19,14 @@
     })
     export default class Controller extends Vue {
 
-        user = {};
+        user = {}
 
         mounted () {
         }
 
-        @Message({
-            type: "error",
-            catch: Exceptions.UserRegisteredException as any,
-            text: "Ошибка при регистрации"
-        })
+        @OnErrorMessage
         async onSubmit (user: User) {
-            // await Api.Auth.register(user)
-            throw new Exceptions.UserRegisteredException(user)
+            await Api.Auth.register(user)
         }
 
     }

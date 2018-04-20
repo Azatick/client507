@@ -4,8 +4,14 @@ import Modules from "../modules";
 
 Vue.use(Vuex);
 
+let {
+    Messages,
+    Loadings
+} = Modules
+
 export default new Vuex.Store({
     modules: {
-        messages: Modules.Messages
+        Messages,
+        Loadings
     }
 });
