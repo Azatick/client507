@@ -14,10 +14,14 @@ export default function Message (config: MessageConfig) {
     }
 }
 
-export var OnErrorMessage = Message({
-    type: "error",
-    title: "Ошибка"
-})
+export var OnErrorMessage = function (position: MessagePosition = "top right", duration?: number) {
+    return Message({
+        type: "error",
+        title: "Ошибка",
+        position,
+        duration
+    })
+}
 
 export type MessageType = "error" | "success" | "warning" | "info"
 
@@ -25,5 +29,17 @@ export interface MessageConfig {
     type: MessageType
     title?: string
     text?: string
-    delay?: number
+    position?: MessagePosition
+    duration?: number
 }
+
+export type MessagePosition =
+    | "top left"
+    | "top right"
+    | "top center"
+    | "bottom left"
+    | "bottom right"
+    | "bottom center"
+    | "middle left"
+    | "middle right"
+    | "middle center"

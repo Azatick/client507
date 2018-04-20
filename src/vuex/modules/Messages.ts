@@ -1,5 +1,5 @@
 import { StoreOptions } from "vuex"
-import {MessageConfig} from "../../annotations/vue/MessageAnnotations";
+import {MessageConfig} from "../../annotations/vue/MessageAnnotations"
 import * as _ from 'lodash'
 
 interface MessagesStore {
@@ -26,8 +26,8 @@ export default {
         addMessage (state, message: MessageConfig) {
             state.messages = [...state.messages, message]
             setTimeout(function () {
-
-            }, )
+                state.messages = _.without(state.messages, message)
+            }, message.duration * 1000 || 5000)
         }
     }
 

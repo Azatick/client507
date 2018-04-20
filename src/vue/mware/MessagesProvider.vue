@@ -1,12 +1,15 @@
 <template>
     <div>
-        <Message
-                v-for="(message, index) in messages"
-                :type="message.type"
-                :key="index"
-                :title="message.title"
-                :text="message.text"
-        />
+        <div class="messages">
+            <Message
+                    v-for="(message, index) in messages"
+                    :type="message.type"
+                    :key="index"
+                    :title="message.title"
+                    :text="message.text"
+                    :position="message.position"
+            />
+        </div>
         <slot/>
     </div>
 </template>

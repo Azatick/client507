@@ -1,5 +1,5 @@
 <template>
-    <div v-block="'message'" :class="`message--${type}`">
+    <div v-block="'message'" :class="`message--${type} message--${getPositionClass()}`">
         <p v-element="'title'" v-if="title">{{ title }}</p>
         <p v-element="'text'">{{ text }}</p>
     </div>
@@ -9,7 +9,7 @@
     import Vue from 'vue'
 
     import {Component, Prop} from 'vue-property-decorator'
-    import { MessageType } from "../../../annotations/vue/MessageAnnotations";
+    import {MessagePosition, MessageType} from "../../../annotations/vue/MessageAnnotations";
 
 
     @Component
@@ -21,6 +21,12 @@
         text: string
         @Prop(String)
         title: string
+        @Prop(String)
+        position: MessagePosition
+
+        getPositionClass () {
+            return this.position.split(" ").join("-")
+        }
 
     }
 </script>

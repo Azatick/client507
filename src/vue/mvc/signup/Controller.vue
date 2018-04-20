@@ -24,7 +24,7 @@
         mounted () {
         }
 
-        @OnErrorMessage
+        @OnErrorMessage()
         async onSubmit (user: User) {
             await Api.Auth.register(user)
         }
