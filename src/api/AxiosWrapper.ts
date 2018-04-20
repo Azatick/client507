@@ -8,19 +8,19 @@ export default class AxiosWrapper {
         return await axios.get(`${api}${path}`, config);
     }
 
-    static async post<ParamsType, DataType> (path: string, data?: AxiosRequestConfig<ParamsType>, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+    static async post<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
         return await axios.post(`${api}${path}`, data, config);
     }
 
-    static async delete<ParamsType, DataType> (path: string, data?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.delete(`${api}${path}`, data);
+    static async delete<ParamsType, DataType> (path: string, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+        return await axios.delete(`${api}${path}`, config);
     }
 
-    static async patch<ParamsType, DataType> (path: string, data?: AxiosRequestConfig<ParamsType>, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+    static async patch<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
         return await axios.patch(`${api}${path}`, data, config);
     }
 
-    static async put<ParamsType, DataType> (path: string, data?: AxiosRequestConfig<ParamsType>, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+    static async put<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
         return await axios.put(path, data, config);
     }
 }

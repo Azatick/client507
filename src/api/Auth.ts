@@ -3,7 +3,7 @@ import AxiosWrapper from "./AxiosWrapper";
 export default class Auth extends AxiosWrapper {
 
     static async register (account: RegisterAccount) {
-        var result = (await this.post<RegisterAccount, AuthResponse>("registration", account as any)).data;
+        var result = (await this.post<RegisterAccount, AuthResponse>("registration", account)).data;
         console.log(result)
         localStorage.setItem('auth_token', result.auth_token);
         return result;
