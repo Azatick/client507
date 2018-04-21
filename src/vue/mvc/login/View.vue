@@ -3,13 +3,15 @@
         <MForm :onSubmit="onSubmit" :model="user">
             <MInput
                     label="Логин (e-mail адрес)"
-                    :validate="[$validators.required(), $validators.email(), $validators.max(20)]"
+                    :validate="[$validators.email(), $validators.max(50)]"
+                    required
                     name="email"
                     autocomplete="email"
             />
             <MInput
                     label="Пароль"
-                    :validate="[$validators.required(), $validators.min(4)]"
+                    :validate="[$validators.min(6)]"
+                    required
                     name="password"
                     type="password"
                     autocomplete="new-password"

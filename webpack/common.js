@@ -37,7 +37,7 @@ module.exports = function (env) {
 		},
 
 		resolve: {
-			extensions: [".js", ".jsx", ".ts", ".tsx", ".json", ".sass", ".scss", ".vue"],
+			extensions: [".js", ".jsx", ".ts", ".tsx", ".json", ".sass", ".scss", ".css", ".vue"],
 			modules: [pp.get("/", "node_modules")],
 			alias: {
 				_fonts: pp.get("assets", "fonts"),
@@ -91,17 +91,6 @@ module.exports = function (env) {
 
 				{
 					test: /\.s[ac]ss$/,
-					// use: ((env == "dev") ? [{loader:"css-hot-loader"}] :[]).concat(
-					// 	[
-					// 		{ loader: plugins.miniCssExtract.loader },
-					// 		{ loader: "style-loader" },
-					// 		{ loader: "css-loader" },
-					// 		{ loader: "sass-loader?sourceMap" },
-					// 		{ loader: "sass-bulk-import-loader" },
-					// 		{ loader:  "group-css-media-queries-loader" },
-					// 		{ loader: "resolve-url-loader" }
-					// 	]
-					// )
 					use: (env == "dev" ? ["css-hot-loader"] : []).concat(
 						plugins.extractTextPlugin.extract({
 							fallback: "style-loader",
@@ -112,15 +101,10 @@ module.exports = function (env) {
 
 				{
 					test: /\.css$/,
-					// use: ((env == "dev") ? [{loader: "css-hot-loader"}] :[]).concat([
-					// 	{ loader: plugins.miniCssExtract.loader },
-					// 	{ loader: "style-loader" },
-					// 	{ loader: "css-loader" }
-					// ])
 					use: (env == "dev" ? ["css-hot-loader"] : []).concat(
 						plugins.extractTextPlugin.extract({
 							fallback: "style-loader",
-							use: ["css-loader"]
+							use: "css-loader"
 						})
 					)
 				},

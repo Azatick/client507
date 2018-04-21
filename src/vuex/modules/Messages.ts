@@ -24,10 +24,16 @@ export default {
 
     mutations: {
         addMessage (state, message: MessageConfig) {
+            message.id = state.messages.length + 1
             state.messages = [...state.messages, message]
-            setTimeout(function () {
-                state.messages = _.without(state.messages, message)
-            }, message.duration * 1000 || 5000)
+            if (!message.always) {
+                let i = setTimeout(function () {
+                    state.messages = _.without(state.messages, message)
+                }, message.duration * 1000 || 10000)
+            }
+        },
+        removeMessage (state, message: MessageConfig) {
+            state.messages = _.without(state.messages, message)
         }
     }
 

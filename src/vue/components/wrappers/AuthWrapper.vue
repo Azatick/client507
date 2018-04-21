@@ -43,7 +43,7 @@
                 bottom: 0;
                 right: 0;
                 opacity: .8;
-                background: url("../../../assets/img/bg.png");
+                background: url("../../../assets/img/png/bg.png");
             }
         }
 

@@ -6,7 +6,7 @@ export default function Message (config: MessageConfig) {
                     var result = await value.value.apply(this, args)
                 } catch (error) {
                     config.text = error.message
-                    this.$store.commit('Messages/addMessage', config)
+                    this.$store.commit('Messages/addMessage', {...config})
                 }
                 return result
             }
@@ -14,23 +14,25 @@ export default function Message (config: MessageConfig) {
     }
 }
 
-export var OnErrorMessage = function (position: MessagePosition = "top right", duration?: number) {
+export var OnErrorMessage = function (config: MessageConfig = { type: 'error' }) {
     return Message({
-        type: "error",
-        title: "Ошибка",
-        position,
-        duration
+        title: 'Ошибка',
+        position: 'top right',
+        ...config,
+        type: 'error',
     })
 }
 
 export type MessageType = "error" | "success" | "warning" | "info"
 
 export interface MessageConfig {
-    type: MessageType
+    type?: MessageType
     title?: string
     text?: string
     position?: MessagePosition
     duration?: number
+    always?: boolean
+    id?: number
 }
 
 export type MessagePosition =

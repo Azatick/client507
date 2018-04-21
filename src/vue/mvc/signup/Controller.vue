@@ -21,10 +21,9 @@
 
         user = {}
 
-        mounted () {
-        }
-
-        @OnErrorMessage()
+        @OnErrorMessage({
+            title: 'Пользователь существует'
+        })
         async onSubmit (user: User) {
             await Api.Auth.register(user)
         }

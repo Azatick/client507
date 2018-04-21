@@ -3,7 +3,7 @@
         <MForm :onSubmit="onSubmit" :model="user">
             <MInput
                     label="Логин (e-mail адрес)"
-                    :validate="[$validators.email(), $validators.max(20)]"
+                    :validate="[$validators.email(), $validators.max(50)]"
                     required
                     name="email"
                     text="Ваш постоянный e-mail адрес"

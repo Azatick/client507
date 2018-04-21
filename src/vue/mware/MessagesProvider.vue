@@ -8,6 +8,7 @@
                     :title="message.title"
                     :text="message.text"
                     :position="message.position"
+                    :index="index"
             />
         </div>
         <slot/>
