@@ -31,16 +31,14 @@ export default class Controller extends Vue {
 
   isAuth: boolean;
 
-  info = async () => {
-    return await Api.Info.userInfo()
-  }
-
-
   async created() {
-    localStorage.setItem('auth_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhckB5YW5kZXgucnUiLCJqdGkiOiIxNTM5ZTFlMC1lYzg0LTQ4NTAtYTI4My1iNDkxNjM0NTBiNjYiLCJpYXQiOjE1MjM4MjUzMzAsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImRjNDk1Y2E0LTZmYTYtNGQ4Zi04MGI4LTUxMjJiYTcyYTc3MiIsIm5iZiI6MTUyMzgyNTMzMCwiZXhwIjoxNTIzODMyNTMwLCJpc3MiOiJ3ZWJBcGkiLCJhdWQiOiJodHRwOi8vaXRpcy1tb2JpbGUuYXp1cmV3ZWJzaXRlcy5uZXQifQ.yPQkARs6yzZzw5l7GrP9gBQWoR4kw8IPAqA5ielYt5w');
-    console.log( localStorage.getItem('auth_token'))
-    let info = await this.info();
-    console.log(info)
+    localStorage.setItem('auth_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhckB5YW5kZXgucnUiLCJqdGkiOiJmMTRmYzNkZC1kODlhLTQ5NzQtYjhmYS02OTRmZDlmOTRlMzIiLCJpYXQiOjE1MjQxMjc2NzgsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImRjNDk1Y2E0LTZmYTYtNGQ4Zi04MGI4LTUxMjJiYTcyYTc3MiIsIm5iZiI6MTUyNDEyNzY3OCwiZXhwIjoxNTI0MTM0ODc4LCJpc3MiOiJ3ZWJBcGkiLCJhdWQiOiJodHRwOi8vaXRpcy1tb2JpbGUuYXp1cmV3ZWJzaXRlcy5uZXQifQ.9LA6X1wyoL8MlfCY2GSHOA0r9HHgVD7uF8Q8pTf-zG0');
+    let info = await Api.Info.userInfo();
+    this.pdata.firstname = info.data.firstName
+    this.pdata.secondname = info.data.lastName
+    this.pdata.passport = info.data.passportSeries
+    this.pdata.tariff_name = info.data.currentTariff
+    this.pdata.balance_rub = info.data.balance
  }
 
   mounted() {
@@ -49,15 +47,15 @@ export default class Controller extends Vue {
 }
 
 export interface pdata {
-  img: String;
+  img?: String;
   firstname: String;
   secondname: String;
-  number: Number;
+  number?: Number;
   passport: Number;
   balance: Number;
   tariff_name: String;
-  tariff_conditions: String;
-  number_of_services: Number;
+  tariff_conditions?: String;
+  number_of_services?: Number;
 }
 </script>
 

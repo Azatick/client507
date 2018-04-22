@@ -9,7 +9,6 @@ export default class Info extends AxiosWrapper {
                 'authorization': token ? `Bearer ${token}` : ''
               }
         }));
-        console.log(result)
         return result;
     }
 }
