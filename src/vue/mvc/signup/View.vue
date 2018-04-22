@@ -3,32 +3,35 @@
         <MForm :onSubmit="onSubmit" :model="user">
             <MInput
                     label="Логин (e-mail адрес)"
-                    :validate="[$validators.required(), $validators.email(), $validators.max(20)]"
+                    :validate="[$validators.email(), $validators.max(50)]"
+                    required
                     name="email"
                     text="Ваш постоянный e-mail адрес"
                     autocomplete="email"
             />
             <MInput
                     label="Имя"
-                    :validate="[$validators.required()]"
+                    required
                     name="firstName"
                     autocomplete="given-name"
             />
             <MInput
                     label="Фамилия"
-                    :validate="[$validators.required()]"
+                    required
                     name="lastName"
                     autocomplete="family-name"
             />
             <MInput
                     label="Серия, паспорт"
-                    :validate="[$validators.required(), $validators.regexp(/^\d{4} \d{6}$/, 'Несоответствие шаблону: 1234 567890')]"
+                    :validate="[$validators.regexp(/^\d{4} \d{6}$/, 'Несоответствие шаблону: 1234 567890')]"
+                    required
                     name="passportSeries"
                     type="text"
             />
             <MInput
                     label="Пароль"
-                    :validate="[$validators.required(), $validators.min(4)]"
+                    :validate="[$validators.min(6)]"
+                    required
                     name="password"
                     type="password"
                     autocomplete="new-password"
@@ -38,6 +41,7 @@
                     :validate="[$validators.required(), $validators.equalTo(user['password'], 'Оба пароля должны совпадать')]"
                     name="passwordRepeat"
                     type="password"
+                    ignoreModel
                     autocomplete="new-password"
             />
             <MButton type="submit">Отправить</MButton>

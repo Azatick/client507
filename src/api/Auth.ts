@@ -1,10 +1,14 @@
 import AxiosWrapper from "./AxiosWrapper";
+import Exceptions from '../exceptions'
 
 export default class Auth extends AxiosWrapper {
 
     static async register (account: RegisterAccount) {
-        var result = (await this.post<RegisterAccount, AuthResponse>("registration", account as any)).data;
-        console.log(result)
+        try {
+            var result = (await this.post<RegisterAccount, AuthResponse>("registration", account)).data;
+        } catch (err) {
+            throw new Exceptions.UserRegisteredException(account)
+        }
         localStorage.setItem('auth_token', result.auth_token);
         return result;
     }

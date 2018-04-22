@@ -9,6 +9,8 @@
     import MView from "./View.vue"
     import User from "../../../models/User"
     import Api from '../../../api'
+    import Exceptions from '../../../exceptions'
+    import Message, {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
 
     @Component({
         components: {
@@ -17,8 +19,11 @@
     })
     export default class Controller extends Vue {
 
-        user = {};
+        user = {}
 
+        @OnErrorMessage({
+            title: 'Пользователь существует'
+        })
         async onSubmit (user: User) {
             await Api.Auth.register(user)
         }
