@@ -1,5 +1,8 @@
 <template>
-    <MView :user="user" :onSubmit="onSubmit"/>
+    <MView
+            :user="user"
+            :onSubmit="onSubmit"
+    />
 </template>
 
 <script lang="ts">
@@ -7,10 +10,14 @@
     import Component from "vue-class-component"
 
     import MView from "./View.vue"
-    import User from "../../../models/User"
     import Api from '../../../api'
     import Exceptions from '../../../exceptions'
     import Message, {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
+    import {RegisterAccount} from "../../../api/Auth";
+    import Loading from "../../../annotations/vue/Loading";
+    import Redirect from "../../../annotations/vue/Redirect";
+    import Secured from "../../../annotations/vue/Secured";
+    import CurrentUser from "../../../models/CurrentUser";
 
     @Component({
         components: {
@@ -21,11 +28,17 @@
 
         user = {}
 
+        @Loading('registration')
         @OnErrorMessage({
             title: 'Пользователь существует'
         })
-        async onSubmit (user: User) {
+        @Redirect('/success-registration')
+        async onSubmit (user: RegisterAccount) {
             await Api.Auth.register(user)
+        }
+
+        @Secured((user: CurrentUser) => !user.userRole, '/profile')
+        beforeCreate () {
         }
 
     }

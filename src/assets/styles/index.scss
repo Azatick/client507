@@ -1,46 +1,38 @@
-body {
-    background: rgb(245, 248, 252) !important;
-}
+@import "utils/reset.css";
 
-.img_tariffs {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/svg/002-tools.svg);
-}
+@import "mixins/*";
+
+@import "../fonts/index.css";
+
+@import "common/*";
+@import "layout/*";
+@import "bootstrap/*";
 
 .img_support {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/svg/012-chat-1.svg);
-}
-
-.img_profile {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/svg/user.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/svg/012-chat-1.svg);
 }
 
 .img_refresh {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    margin-left: 10px;
-    background-image: url(../img/svg/003-stopclock.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+  background-image: url(../img/svg/003-stopclock.svg);
 }
 
 .img_right_arrow {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/svg/right-arrow.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/svg/right-arrow.svg);
 }
 
 .img_down_arrow {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-image: url(../img/svg/down-arrow.svg);
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  background-image: url(../img/svg/down-arrow.svg);
 }

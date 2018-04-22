@@ -1,21 +1,15 @@
 <template>
 	<header>
-		<b-navbar toggleable="md" type="dark" variant="info">
+		<b-navbar toggleable="md" type="dark" variant="primary">
 			<b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-			<b-navbar-brand to="/">NavBar</b-navbar-brand>
+			<b-navbar-brand to="/profile">CRM</b-navbar-brand>
 
 			<b-collapse is-nav id="nav_collapse">
 
-				<b-navbar-nav>
-				<b-nav-item href="#">Link</b-nav-item>
-				<b-nav-item href="#" disabled>Disabled</b-nav-item>
-				</b-navbar-nav>
-
-				<!-- Right aligned nav items -->
 				<b-navbar-nav class="ml-auto">
 
-					<b-nav-item to="/login">Войти</b-nav-item>
+					<b-nav-item @click="logout">Выйти</b-nav-item>
 
 				</b-navbar-nav>
 
@@ -25,8 +19,18 @@
 </template>
 
 <script lang="ts">
-	export default {
-		
+	import Vue from 'vue'
+	import Api from '../../../api'
+    import {Component} from "vue-property-decorator";
+
+	@Component
+	export default class Header extends Vue {
+
+	    async logout () {
+	        await Api.Auth.logout();
+	        this.$router.push('/login');
+		}
+
 	}
 </script>
 

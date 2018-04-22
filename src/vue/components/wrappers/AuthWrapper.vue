@@ -7,8 +7,8 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import Component from 'vue-class-component';
+    import Vue from 'vue'
+    import Component from 'vue-class-component'
     
     @Component
     export default class AuthWrapper extends Vue {
@@ -50,6 +50,7 @@
         &-card {
             padding: 30px;
             background: white;
+            overflow: hidden;
             width: 100%;
             min-width: 250px;
             max-width: 450px;

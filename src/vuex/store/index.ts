@@ -6,12 +6,14 @@ Vue.use(Vuex);
 
 let {
     Messages,
-    Loadings
+    Loadings,
+    Modals
 } = Modules
 
 export default new Vuex.Store({
     modules: {
         Messages,
-        Loadings
+        Loadings,
+        Modals
     }
 });

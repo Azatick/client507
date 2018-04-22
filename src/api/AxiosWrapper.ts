@@ -1,27 +1,53 @@
 import axios, { AxiosResponse, AxiosAdapter, AxiosBasicCredentials, AxiosTransformer, AxiosProxyConfig, CancelToken } from "axios";
+import * as _ from 'lodash'
 
 const api = "http://itis-mobile.azurewebsites.net/api/"
 
 export default class AxiosWrapper {
 
     static async get<ParamsType, DataType> (path: string, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.get(`${api}${path}`, config);
+        let token = localStorage.getItem("auth_token")
+        return await axios.get(`${api}${path}`, _.merge(config, {
+            headers: {
+                'authorization': token ? `Bearer ${token}` : ''
+            }
+        }));
     }
 
     static async post<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.post(`${api}${path}`, data, config);
+        let token = localStorage.getItem("auth_token")
+        return await axios.post(`${api}${path}`, data, _.merge(config, {
+            headers: {
+                'authorization': token ? `Bearer ${token}` : ''
+            }
+        }));
     }
 
     static async delete<ParamsType, DataType> (path: string, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.delete(`${api}${path}`, config);
+        let token = localStorage.getItem("auth_token")
+        return await axios.delete(`${api}${path}`, _.merge(config, {
+            headers: {
+                'authorization': token ? `Bearer ${token}` : ''
+            }
+        }))
     }
 
     static async patch<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.patch(`${api}${path}`, data, config);
+        let token = localStorage.getItem("auth_token")
+        return await axios.patch(`${api}${path}`, data, _.merge(config, {
+            headers: {
+                'authorization': token ? `Bearer ${token}` : ''
+            }
+        }))
     }
 
     static async put<ParamsType, DataType> (path: string, data?: any, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
-        return await axios.put(path, data, config);
+        let token = localStorage.getItem("auth_token")
+        return await axios.put(path, data, _.merge(config, {
+            headers: {
+                'authorization': token ? `Bearer ${token}` : ''
+            }
+        }))
     }
 }
 

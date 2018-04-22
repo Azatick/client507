@@ -1,50 +1,62 @@
 <template>
-    <m-block id="menu">
-        <div class="cell">
-            <div class="img_profile"></div>
+    <div v-block="'menu'">
+        <router-link to="/profile" v-element="'item'">
+            <icon name="user"/>
             <span>Личный кабинет</span>
-        </div>
-        <div class="cell">
-            <div class="img_tariffs"></div>
+        </router-link>
+        <router-link to="/tariffs" v-element="'item'">
+            <icon name="tools"/>
             <span>Тарифы</span>
-        </div>
-        <div class="cell">
-            <div class="img_support"></div>
+        </router-link>
+        <router-link to="/support" v-element="'item'">
+            <icon name="support"/>
             <span>Тех. поддержка</span>
-        </div>
-    </m-block>
+        </router-link>
+    </div>
 </template>
 
 
 <script lang="ts">
-import Vue from "vue";
-import Component from "vue-class-component";
+    import Vue from "vue"
+    import Component from "vue-class-component"
+    import Icon from '../abstract/Icon.vue'
 
-import Abstract from "../abstract";
-@Component({
-  components: {
-    MBlock: Abstract.MBlock
-  }
-})
-export default class App extends Vue {}
+    @Component({
+        components:{
+            Icon
+        }
+    })
+    export default class App extends Vue {
+    }
 </script>
 
 <style lang="scss">
-#menu {
-  padding: 0 20px;
-  text-align: center;
-  display: grid;
-}
+    @import "../../../assets/styles/mixins/em";
 
-#menu .cell {
-  padding: 20px;
-}
-
-#menu .cell:not(:last-child) {
-  border-bottom: 2px solid rgb(240, 240, 240);
-}
-
-#menu .cell * {
-  vertical-align: middle;
-}
+    .menu {
+        padding: 0 20px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        &__item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ececec;
+            color: #333;
+            font-size: em(18);
+            transition: color .3s;
+            & .icon {
+                font-size: em(24);
+                margin-right: 10px;
+            }
+            &:hover, &.router-link-active {
+                text-decoration: none;
+                color: #50BFFF;
+            }
+            &:last-of-type {
+                border-bottom: none;
+            }
+        }
+    }
 </style>

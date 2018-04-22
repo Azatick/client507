@@ -1,12 +1,16 @@
+import * as _ from 'lodash'
+import AException from "../../exceptions/AException";
+
 export default function Message (config: MessageConfig) {
     return function (target: any, prop: string, value: any) {
+
         return {
             value: async function (...args: any[]) {
                 try {
                     var result = await value.value.apply(this, args)
                 } catch (error) {
                     config.text = error.message
-                    this.$store.commit('Messages/addMessage', {...config})
+                    this.$store.commit('Messages/add', {...config})
                 }
                 return result
             }

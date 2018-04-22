@@ -1,27 +1,29 @@
 import AxiosWrapper from "./AxiosWrapper";
 import Exceptions from '../exceptions'
+import CurrentUser from "../models/CurrentUser";
 
 export default class Auth extends AxiosWrapper {
 
     static async register (account: RegisterAccount) {
         try {
-            var result = (await this.post<RegisterAccount, AuthResponse>("registration", account)).data;
-        } catch (err) {
+            var result = (await this.post<RegisterAccount, AuthResponse>("registration", account));
+            return result;
+        } catch (e) {
             throw new Exceptions.UserRegisteredException(account)
         }
-        localStorage.setItem('auth_token', result.auth_token);
-        return result;
     }
 
-    static async login (auth: AuthRequest) {
-        var result = (await this.post<AuthRequest, AuthResponse>("login", {
-          params: auth
-        })).data;
-        localStorage.setItem('auth_token', result.auth_token) ;
-        return result;
+    static async login (auth: AuthUser) {
+        try {
+            var result = (await this.post<AuthUser, AuthResponse>("login", auth)).data;
+            localStorage.setItem('auth_token', result.auth_token);
+            return result;
+        } catch (e) {
+            throw new Exceptions.InvalidLoginOrPasswordException()
+        }
     }
 
-    static async logout (auth_token: string) {
+    static async logout () {
         localStorage.removeItem('auth_token');
     }
 
@@ -29,6 +31,15 @@ export default class Auth extends AxiosWrapper {
         return (await this.post<String, String>("accessToken", {
           params: auth_token
         }));
+    }
+
+    static async userInfo () {
+        try {
+            return (await this.get<String, CurrentUser>("auth/currentUser"));
+        } catch (e) {
+            throw new Exceptions.UserNotAuthorizedException()
+        }
+
     }
 
 }
@@ -41,7 +52,7 @@ export interface RegisterAccount {
     passportSeries: string;
 }
 
-export interface AuthRequest {
+export interface AuthUser {
     userName: string;
     password: string;
 }

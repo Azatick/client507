@@ -17,22 +17,22 @@ export default {
     } as MessagesStore,
 
     getters: {
-        getMessages: (state: MessagesStore) => {
+        getAll: (state: MessagesStore) => {
             return state.messages;
         }
     },
 
     mutations: {
-        addMessage (state, message: MessageConfig) {
+        add (state, message: MessageConfig) {
             message.id = state.messages.length + 1
-            state.messages = [...state.messages, message]
+            state.messages = _.uniqBy([...state.messages, message], 'type', 'title', 'text', 'position')
             if (!message.always) {
                 let i = setTimeout(function () {
                     state.messages = _.without(state.messages, message)
                 }, message.duration * 1000 || 10000)
             }
         },
-        removeMessage (state, message: MessageConfig) {
+        remove (state, message: MessageConfig) {
             state.messages = _.without(state.messages, message)
         }
     }

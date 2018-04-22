@@ -1,5 +1,9 @@
 <template>
-    <MView :pdata="pdata"/>
+    <MView
+            :data="data"
+            :tariffs="tariffs"
+            :onChangeTariff="onChangeTariff"
+    />
 </template>
 
 <script lang="ts">
@@ -9,55 +13,51 @@
     import Api from "../../../api";
 
     import MView from "./View.vue";
+    import Secured from "../../../annotations/vue/Secured";
+    import CurrentUser from "../../../models/CurrentUser";
+    import {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
+    import ProfileData from "../../../models/ProfileData";
+    import { Modal } from "../../../annotations/vue/Modals";
+    import Loading from "../../../annotations/vue/Loading";
+    import Components from '../../components'
 
     @Component({
         components: {
-            MView
+            MView,
+            Loading: Components.Abstract.Loading
         }
     })
 
     export default class Controller extends Vue {
-        pdata = {
-            img: "2131fkmdsgfdmnklsbkagmdkfnb",
-            firstname: "Андрей",
-            secondname: "Иванов",
-            number: 9875632177,
-            passport: 3646124,
-            balance_rub: 46,
-            tariff_name: "For everyone",
-            tariff_conditions: "300 руб./мес. | 10 гб 4G",
-            number_of_services: 5
-        };
 
-        isAuth: boolean;
+        data: ProfileData = {}
+        tariffs = ['Smart', 'Middle', 'Start'].map(v => ({ title: v, value: v }))
 
-        info = async () => {
-            return await Api.Info.userInfo()
+        @OnErrorMessage({
+            title: 'Вы не авторизованы'
+        })
+        @Secured((user: CurrentUser) => user.userRole == 'Customer')
+        async beforeCreate() {
+            await this.synchronizeProfile()
         }
 
-
-        async created() {
-            localStorage.setItem('auth_token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJhaWRhckB5YW5kZXgucnUiLCJqdGkiOiIxNTM5ZTFlMC1lYzg0LTQ4NTAtYTI4My1iNDkxNjM0NTBiNjYiLCJpYXQiOjE1MjM4MjUzMzAsInJvbCI6ImFwaV9hY2Nlc3MiLCJpZCI6ImRjNDk1Y2E0LTZmYTYtNGQ4Zi04MGI4LTUxMjJiYTcyYTc3MiIsIm5iZiI6MTUyMzgyNTMzMCwiZXhwIjoxNTIzODMyNTMwLCJpc3MiOiJ3ZWJBcGkiLCJhdWQiOiJodHRwOi8vaXRpcy1tb2JpbGUuYXp1cmV3ZWJzaXRlcy5uZXQifQ.yPQkARs6yzZzw5l7GrP9gBQWoR4kw8IPAqA5ielYt5w');
-            console.log(localStorage.getItem('auth_token'))
-            let info = await this.info();
-            console.log(info)
+        @Loading('profile')
+        async synchronizeProfile () {
+            let user = (await Api.Auth.userInfo()).data;
+            let data = {
+                ...user,
+                phone: '+7 (987) 654-32-10',
+                serviceCount: 5
+            } as ProfileData;
+            this.data = data;
         }
 
-        mounted() {
-            console.log(this.$store.state);
+        @Modal("changeTariff", "confirm")
+        async onChangeTariff (tariff: string) {
+            await Api.Profile.changeTariff(tariff)
+            await this.synchronizeProfile()
         }
-    }
 
-    export interface pdata {
-        img: String;
-        firstname: String;
-        secondname: String;
-        number: Number;
-        passport: Number;
-        balance: Number;
-        tariff_name: String;
-        tariff_conditions: String;
-        number_of_services: Number;
     }
 </script>
 

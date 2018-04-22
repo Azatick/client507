@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import createRouter from './router'
+import createRouter, {RouteConfig} from './router'
 import Routes from './router/Routes'
 import store from './vuex/store'
 
@@ -23,5 +23,5 @@ Vue.use(VuePlugins.Bem)
 new Vue({
     render: h => h(EntryInApp),
     store,
-    router: createRouter(Routes)
+    router: createRouter(Routes as RouteConfig[])
 }).$mount("#app");

@@ -1,123 +1,207 @@
 <template>
-    <div id="profile">
-        <m-menu/>
-
-        <m-block id="user-info">
-            <div class="photo">
-                <img src="../../../assets/img/png/man.png" class="img_user"/>
-            </div>
-
-            <div class="title">
-                <h1>
-                    <span>{{pdata.firstname}}</span>
-                    <span>{{pdata.secondname}}</span>
-                </h1>
-            </div>
-
-            <div class="body">
-                <div class="cells">
-                    <div class="cell">
-                        <div class="cell_title">
-                            <span>Номер</span>
+    <Loading name="profile">
+        <div v-block="'user-profile'">
+            <div v-block="'profile-row'">
+                <div v-element="'col'">
+                    <block v-block="'block user-info'">
+                        <div v-element="'avatar'">
+                            <img src="../../../assets/img/png/man.png" class="img_user"/>
                         </div>
-                        <div class="cell_value">
-                            <span>{{pdata.number}}</span>
+
+                        <p v-element="'title'">
+                            {{data.firstName}} {{data.lastName}}
+                        </p>
+
+                        <div v-element="'content'">
+                            <div v-block="'cell'">
+                                <p v-element="'title'">Номер</p>
+                                <p v-element="'value'">
+                                    {{ data.phone }}
+                                </p>
+                            </div>
+
+                            <div v-block="'cell'">
+                                <p v-element="'title'">Паспорт</p>
+                                <p v-element="'value'">
+                                    {{data.passportSeries}}
+                                </p>
+                            </div>
+
                         </div>
+                    </block>
+                </div>
+                <div v-element="'col'">
+                    <div v-block="'profile-row'" class="balance-row">
+                        <block class="balance" title="Баланс">
+                            <div class="balance__content">
+                                <p>{{data.balance_rub}}</p>
+                                <m-button
+                                        variant="outline-primary"
+                                >Пополнить</m-button>
+                            </div>
+                        </block>
                     </div>
+                    <div v-block="'profile-row'" class="tariff-row">
+                        <block class="tariff" :title="`Тариф ${data.currentTariff}`">
 
-                    <div class="cell">
-                        <div class="cell_title">
-                            <span>Паспорт</span>
-                        </div>
-                        <div class="cell_value">
-                            <span>{{pdata.passport}}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </m-block>
-
-        <m-block id="balance">
-            <div class="title">
-                <h1>Баланс</h1>
-            </div>
-
-            <div class="body">
-                <span>{{pdata.balance_rub}}</span>
-                <span>RUB</span>
-                <div class="img_refresh"/>
-            </div>
-
-            <div class="button">
-                <div>
-                    <button>Пополнить</button>
-                </div>
-            </div>
-        </m-block>
-
-        <m-block id="tariff">
-            <div class="title">
-                <h1>Тариф</h1>
-            </div>
-
-            <div class="body">
-                <div class="select">
-                    <span>{{pdata.tariff_name}}</span>
-                    <span class="img_down_arrow"/>
-                </div>
-                <div class="tariffs">
-                    <div class="my_tariff">
-                        {{pdata.tariff_conditions}}
+                            <div class="body">
+                                <dropdown
+                                        variant="primary"
+                                        class="profile-select"
+                                        :value="{ title: data.currentTariff,  value: data.currentTariff}"
+                                        :items="tariffs"
+                                        :onSelect="onChangeTariff"
+                                />
+                            </div>
+                        </block>
                     </div>
                 </div>
             </div>
 
-            <div class="button">
-                <button>Изменить</button>
+            <div v-block="'profile-row'">
+                <block v-block="'services'">
+                    <router-link to="#" class="services__link">
+                        <span>{{ data.serviceCount }} подключенных услуг</span>
+                        <icon name="right-arrow"/>
+                    </router-link>
+                </block>
             </div>
-        </m-block>
 
-        <m-block id="services">
-            <h1>
-                <span>{{pdata.number_of_services}}</span>
-                <span>подключенных услуг</span>
-            </h1>
-            <span class="img_right_arrow"/>
-        </m-block>
-    </div>
+            <modal title="Вы уверены?" type="confirm" name="changeTariff">
+                <p>
+                    Вы хотите сменить тариф {{ data.currentTariff }}. <br/>
+                    Подтвердите действие.
+                </p>
+            </modal>
+        </div>
+    </Loading>
 </template>
 
 <script lang="ts">
-    import Vue from "vue";
-    import Component from "vue-class-component";
+    import Vue from "vue"
 
-    import Components from "../../components";
-    import {Prop} from "vue-property-decorator";
+    import Components from "../../components"
+    import {Prop, Component} from "vue-property-decorator"
+    import ProfileData from "../../../models/ProfileData"
+    import { DropdownItem } from '../../components/abstract/Dropdown.vue'
 
     @Component({
         components: {
-            MMenu: Components.Layout.Menu,
-            MBlock: Components.Abstract.MBlock
-        },
-
-        computed: {
-            name: {
-                get() {
-                    return this.$store.getters["Test/getName"];
-                },
-
-                set(value: string) {
-                    this.$store.commit("test/changeName", value);
-                }
-            }
+            Menu: Components.Layout.Menu,
+            Block: Components.Layout.Block,
+            MButton: Components.Abstract.MButton,
+            Icon: Components.Abstract.Icon,
+            Dropdown: Components.Abstract.Dropdown,
+            Modal: Components.Abstract.Modal,
+            Loading: Components.Abstract.Loading
         }
     })
     export default class MView extends Vue {
-        @Prop() pdata: any;
+        @Prop() data: ProfileData
+        @Prop() tariffs: DropdownItem[]
+        @Prop() onChangeTariff: (tariff: string) => Promise<void>
     }
 </script>
 
 <style lang="scss">
+    @import "~styles/mixins/em";
+
+    $pad: 40px;
+
+    .user-profile {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile-row {
+        display: flex;
+        margin-bottom: $pad;
+        &:last-child {
+            margin-bottom: 0;
+        }
+        &__col {
+            flex-basis: 50%;
+            margin-right: $pad;
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+
+    .user-info,
+    .balance,
+    .tariff,
+    .services {
+        padding: 20px 20px;
+    }
+
+    .tariff-row {
+        height: 50%;
+    }
+    .balance-row {
+        height: calc(50% - 40px);
+    }
+    .user-info-row {
+        height: 100%;
+    }
+
+    .services {
+        &__link {
+            display: flex;
+            justify-content: space-between;
+            color: #50BFFF;
+            transition: color .3s;
+            font-size: em(28);
+            &:hover {
+                text-decoration: none;
+                color: #333;
+            }
+        }
+    }
+
+    .user-info {
+        height: 100%;
+        &__avatar {
+            max-width: 150px;
+            max-height: 150px;
+            margin: 40px auto;
+            opacity: .5;
+        }
+        &__title {
+            text-align: center;
+            color: #50BFFF;
+            font-weight: 300;
+            font-size: em(32);
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ececec;
+        }
+    }
+
+    .balance {
+        &__content {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .cell {
+        font-size: em(18);
+        display: flex;
+        &__title, &__value {
+            margin-bottom: 0;
+            padding: 20px 0;
+        }
+        &__title {
+            flex-basis: 50%;
+            text-align: center;
+            padding-right: 40px;
+        }
+        &__value {
+            flex-basis: 50%;
+            color: #91949A;
+        }
+    }
+
     #profile span {
         color: rgb(154, 154, 154);
         font-size: 20px;
@@ -134,82 +218,6 @@
         border: 1px solid rgb(107, 178, 249);
         color: rgb(107, 178, 249);
         border-radius: 3px;
-    }
-
-    #profile {
-        display: grid;
-    }
-
-    @media (min-width: 1001px) {
-        #profile {
-            padding: 30px 60px;
-            grid-gap: 30px;
-            grid-template-columns: 1fr 1.5fr 1.5fr;
-            grid-auto-rows: auto;
-            grid-template-areas: "aside info     balance" "aside info     balance" ". info     tariff" ". info     tariff" ". services services";
-        }
-    }
-
-    @media (min-width: 641px) and (max-width: 1000px) {
-        #profile {
-            padding: 30px;
-            grid-gap: 30px;
-            grid-template-columns: 1fr 1fr;
-            grid-auto-rows: auto;
-            grid-template-areas: "info     balance" "info     balance" "info     tariff" "info     tariff" "services services";
-        }
-
-        #menu {
-            display: none;
-        }
-    }
-
-    @media (min-width: 641px) and (max-width: 780px) {
-        #user-info .content .body .cell div {
-            padding-left: 5px;
-            padding-bottom: 15px;
-        }
-    }
-
-    @media (max-width: 640px) {
-        #profile {
-            padding: 30px 0;
-            grid-row-gap: 30px;
-            grid-template-columns: 1fr;
-            grid-auto-rows: auto;
-            grid-template-areas: "info" "info" "info" "balance" "balance" "tariff" "tariff" "services";
-        }
-
-        #menu {
-            display: none;
-        }
-    }
-
-    #menu {
-        grid-area: aside;
-    }
-
-    #user-info {
-        grid-area: info;
-    }
-
-    #balance {
-        grid-area: balance;
-    }
-
-    #tariff {
-        grid-area: tariff;
-    }
-
-    #services {
-        grid-area: services;
-    }
-
-    #user-info,
-    #balance,
-    #tariff,
-    #services {
-        padding: 20px 20px;
     }
 
     #user-info .content {

@@ -5,17 +5,14 @@ export default [
     {
         path: "/profile",
         name: "profile",
-        meta: {
-            role: ["admin", "user", "support"],
-        },
-        component: MVC.Profile.Controller
+        components: {
+            default: MVC.Profile.Controller,
+            wrapper: Components.Wrappers.ProfileWrapper
+        }
     },
     {
         path: "/login",
         name: "login",
-        meta: {
-            ignoreLayout: true
-        },
         components: {
             default: MVC.Login.Controller,
             wrapper: Components.Wrappers.AuthWrapper
@@ -24,9 +21,6 @@ export default [
     {
         path: "/signup",
         name: "signup",
-        meta: {
-            ignoreLayout: true
-        },
         components: {
             default: MVC.Signup.Controller,
             wrapper: Components.Wrappers.AuthWrapper

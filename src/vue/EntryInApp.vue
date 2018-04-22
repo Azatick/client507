@@ -12,12 +12,13 @@
     import Vue from 'vue'
 
     import Components from './components'
-    import MessagesProvider from './mware/MessagesProvider.vue'
+    import MessagesProvider from './mware/TunellProvider.vue'
     import {Component} from "vue-property-decorator";
 
     @Component({
         components: {
-            MessagesProvider
+            MessagesProvider,
+            Loading: Components.Abstract.Loading
         }
     })
     export default class EntryInApp extends Vue {

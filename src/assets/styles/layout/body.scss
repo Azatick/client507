@@ -1,0 +1,10 @@
+body {
+  font-family: "Roboto", sans-serif !important;
+  min-width: 320px;
+  font-size: em(16);
+  line-height: 1.5em;
+  background: rgb(245, 248, 252) !important;
+  &.hide-content {
+    display: none;
+  }
+}

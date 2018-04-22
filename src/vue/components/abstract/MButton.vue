@@ -57,6 +57,14 @@
 				@include button(#13CE66);				
 			}	
 		}
+		&--outline-primary {
+			@include button(#50bfff);
+			background: white !important;
+			color: #50bfff;
+			&:hover, &:active {
+				@include button(#50bfff);
+			}
+		}
 		&--warning {
 			@include button(#F7BA2A);
 			&:hover {

@@ -1,7 +1,7 @@
-import Auth from "./Auth";
-import Info from "./Info"
+import Auth from "./Auth"
+import Profile from './Profile'
 
 export default {
     Auth,
-    Info
+    Profile
 }
