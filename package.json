@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --env.NODE_ENV=dev --inline --content-base --port 9000 --open --hot",
-    "build": "cross-env NODE_ENV=prod webpack -p",
-    "prod": "npm run build && node ./prodServer"
+    "build": "webpack --env.NODE_ENV=prod -p",
+    "prod": "npm run build && node ./prodServer",
+    "heroku-postbuild": "npm run build"
   },
   "devDependencies": {
     "@types/jquery": "^3.3.1",
