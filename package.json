@@ -1,12 +1,12 @@
 {
-  "name": "frontend-507",
+  "name": "client-507",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://11507.visualstudio.com/Project%2011-507/_git/11-507%20Client",
+  "repository": "https://github.com/Azatick/client507",
   "license": "MIT",
   "scripts": {
     "dev": "webpack-dev-server --env.NODE_ENV=dev --inline --content-base --port 9000 --open --hot",
-    "build": "webpack --env.NODE_ENV=prod -p",
+    "build": "cross-env NODE_ENV=prod webpack -p",
     "prod": "npm run build && node ./prodServer",
     "heroku-postbuild": "npm run build"
   },
