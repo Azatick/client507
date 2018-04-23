@@ -1,10 +1,9 @@
 const express = require("express"),
-	fallback = require("express-history-api-fallback"),
-	pp = require("project-paths");
+	fallback = require("express-history-api-fallback")
 
 const app = express();
 
-const root = pp.get("build");
+const root = './build';
 
 app.use(express.static(root));
 
