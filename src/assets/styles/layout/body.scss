@@ -4,7 +4,65 @@ body {
   font-size: em(16);
   line-height: 1.5em;
   background: rgb(245, 248, 252) !important;
-  &.hide-content {
+  min-height: 100vh;
+  &.hide-content > *:not(:before), .hide-content > *:not(:after) {
     display: none;
+  }
+
+  animation: fadeIn .3s;
+}
+
+.body {
+  &-loading {
+    animation: fadeOut .3s;
+    & > * {
+      filter: blur(2px);
+    }
+    &::before {
+      display: block;
+      position: absolute;
+      content: '';
+      background: rgba(white, .8);
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 100;
+    }
+    &::after {
+      display: block;
+      position: absolute;
+      background: url('../../img/svg/loading.svg') no-repeat;
+      background-position: 50% 50%;
+      background-size: 70px 70px;
+      content: '';
+      left: 0;
+      right: 0;
+      bottom: 0;
+      top: 0;
+      z-index: 101;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden
+  }
+  to {
+    opacity: 1;
+    visibility: visible
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    visibility: visible
+  }
+  to {
+    opacity: 0;
+    visibility: hidden
   }
 }

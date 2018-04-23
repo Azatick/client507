@@ -6,8 +6,8 @@ export default function Secured(predicat: (user: CurrentUser) => boolean = (user
     return (target: any, propertyKey: string, descriptor: any) => {
         let oldFunc = descriptor.value
         descriptor.value = async function (...args) {
+            $('body').addClass('hide-content body-loading')
             try {
-                $('body').addClass('hide-content')
                 let res = await auth.userInfo();
                 if (res.status == 200 && predicat(res.data)) {
                     var result = await oldFunc.apply(this, ...args)
@@ -21,7 +21,7 @@ export default function Secured(predicat: (user: CurrentUser) => boolean = (user
                 }
                 throw err
             } finally {
-                $('body').removeClass('hide-content')
+                $('body').removeClass('hide-content body-loading')
             }
         }
     }

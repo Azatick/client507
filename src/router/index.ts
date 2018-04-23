@@ -1,8 +1,9 @@
 import Vue, { Component } from 'vue';
-import Router, { RedirectOption, NavigationGuard } from "vue-router";
-import { Dictionary, RoutePropsFunction, PathToRegexpOptions } from 'vue-router/types/router';
-import Components from "../vue/components";
+import Router, { RedirectOption, NavigationGuard } from "vue-router"
+import { Dictionary, RoutePropsFunction, PathToRegexpOptions } from 'vue-router/types/router'
+import Components from "../vue/components"
 import Store from '../vuex/store'
+import * as $ from 'jquery'
 
 Vue.use(Router);
 
@@ -12,11 +13,13 @@ export default function (routes: RouteConfig[]) {
         mode: "history"
     })
     router.beforeEach(function (to, from, next) {
-        Store.commit('Loadings/setLoading', { key: 'page', state: true, title: 'Загрузка' })
+        // Store.commit('Loadings/setLoading', { key: 'page', state: true, title: 'Загрузка' })
+        // $('body').addClass('body--loading')
         next();
     })
     router.afterEach(function (to, from) {
-        Store.commit('Loadings/setLoading', { key: 'page', state: false, title: 'Загрузка' })
+        // Store.commit('Loadings/setLoading', { key: 'page', state: false, title: 'Загрузка' })
+        // $('body').removeClass('body--loading')
     })
     return router;
 }

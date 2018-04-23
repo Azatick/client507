@@ -1,5 +1,6 @@
 import { StoreOptions } from "vuex"
 import Vue from 'vue'
+import * as $ from "jquery";
 
 interface LoadingStore {
 
@@ -18,6 +19,11 @@ export default {
 
     getters: {
         getLoading: (state:LoadingStore) => (key: string) => {
+            if (key == 'page' && state.loadings['page']) {
+                $('body').addClass('body--loading')
+            } else {
+                $('body').removeClass('body--loading')
+            }
             return state.loadings[key] || {}
         }
     },
