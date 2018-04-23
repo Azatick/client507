@@ -20,6 +20,8 @@ function getConfig () {
 
 		devtool: "cheap-source-map",
 
+		target: 'node',
+
 		output: {
 			publicPath: "/"
 		},
