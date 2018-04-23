@@ -85,7 +85,7 @@ module.exports = function (env) {
                     loader: "babel-loader",
                     exclude: [/node_modules/],
                     query: {
-                        presets: ["es2015", "stage-0", "stage-1"]
+                        presets: ['env', "es2015", "stage-0", "stage-1"]
                     }
                 },
 
