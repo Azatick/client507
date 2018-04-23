@@ -24,7 +24,10 @@ function getConfig () {
 
 		devtool: "cheap-source-map",
 
-		target: 'node',
+		node: {
+			fs: 'empty',
+			net: 'empty'
+		},
 
 		output: {
 			publicPath: "/"
