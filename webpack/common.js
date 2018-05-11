@@ -36,6 +36,11 @@ module.exports = function (env) {
             chunkFilename: "[id].bundle.[hash].js"
         },
 
+        node: {
+    			fs: 'empty',
+    			net: 'empty'
+    		},
+
         resolve: {
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json", ".sass", ".scss", ".css", ".vue"],
             modules: [pp.getA("/", "node_modules")],
@@ -135,7 +140,7 @@ module.exports = function (env) {
                 ...projectMeta,
                 filename: "index.html",
                 chunks: ["vendors", "app"],
-                template: pp.get("templates", "index.ejs")
+                template: pp.getA("templates", "index.ejs")
             })
         ]
     };

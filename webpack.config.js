@@ -2,10 +2,10 @@ const pp = require("project-paths"),
 	_ = require("lodash");
 
 const environments = {
-	dev: require(pp.get("webpack", "dev.js")),
-	prod: require(pp.get("webpack", "prod.js")),
-	test: require(pp.get("webpack", "test.js")),
-	common: require(pp.get("webpack", "common.js"))
+	dev: require(pp.getA("webpack", "dev.js")),
+	prod: require(pp.getA("webpack", "prod.js")),
+	test: require(pp.getA("webpack", "test.js")),
+	common: require(pp.getA("webpack", "common.js"))
 };
 
 function mergingRules (obj, src) {

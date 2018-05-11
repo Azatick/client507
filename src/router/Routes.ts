@@ -25,5 +25,13 @@ export default [
             default: MVC.Signup.Controller,
             wrapper: Components.Wrappers.AuthWrapper
         }
+    },
+    {
+        path: '/support',
+        name: 'support',
+        components: {
+            default: MVC.Support.Controller,
+            wrapper: Components.Wrappers.ProfileWrapper
+        }
     }
 ]

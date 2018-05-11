@@ -24,11 +24,6 @@ function getConfig () {
 
 		devtool: "cheap-source-map",
 
-		node: {
-			fs: 'empty',
-			net: 'empty'
-		},
-
 		output: {
 			publicPath: "/"
 		},
@@ -42,21 +37,6 @@ function getConfig () {
 			new plugins.babelEnginePlugin({
                 presets: ['env', 'es2015', 'stage-0', 'stage-1']
 			})
-			// new plugins.uglifyJs({
-			// 	mangle: true,
-			// 	compress: {
-			// 		warnings: false,
-			// 		pure_getters: true,
-			// 		unsafe: true,
-			// 		unsafe_comps: true,
-			// 		screw_ie8: true
-			// 	},
-			// 	output: {
-			// 		comments: true
-			// 	},
-			// 	exclude: [/\.min.js$/gi]
-			// }),
-			// new plugins.aggresiveMerging()
 		]
 	};
 

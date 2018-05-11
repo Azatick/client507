@@ -8,20 +8,10 @@ import * as $ from 'jquery'
 Vue.use(Router);
 
 export default function (routes: RouteConfig[]) {
-    let router = new Router({
+    return new Router({
         routes: prepareRoutes(routes),
         mode: "history"
     })
-    router.beforeEach(function (to, from, next) {
-        // Store.commit('Loadings/setLoading', { key: 'page', state: true, title: 'Загрузка' })
-        // $('body').addClass('body--loading')
-        next();
-    })
-    router.afterEach(function (to, from) {
-        // Store.commit('Loadings/setLoading', { key: 'page', state: false, title: 'Загрузка' })
-        // $('body').removeClass('body--loading')
-    })
-    return router;
 }
 
 function prepareRoutes (routes: RouteConfig[]) {
