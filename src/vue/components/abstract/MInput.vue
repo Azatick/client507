@@ -14,9 +14,6 @@
 
     export default class MInput extends mixins(Mixins.DynamicProps, Mixins.FormElement) {
 
-        mounted() {
-            console.log('mounted');
-        }
     }
 </script>
 

@@ -1,5 +1,5 @@
 <template>
-    <MView :name="name" />
+    <MView :user="user" :onSubmit="onSubmit" />
 </template>
 
 <script lang="ts">
@@ -7,6 +7,15 @@
   import Component from "vue-class-component";
 
   import MView from "./View.vue";
+  import User from "../../../models/User";
+  import Loading from "../../../annotations/vue/Loading";
+  import Redirect from "../../../annotations/vue/Redirect";
+  import Secured from "../../../annotations/vue/Secured";
+  import Message, {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
+  import Api from '../../../api'
+  import Exceptions from '../../../exceptions'
+  import { RegisterAccount } from "../../../api/Auth";
+  import CurrentUser from "../../../models/CurrentUser";
 
   @Component({
     components: {
@@ -15,18 +24,19 @@
   })
   export default class Controller extends Vue {
 
-    name: String = "Guest";
+    user = {}
 
-    async getUsername (name: String) : Promise<String> {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(name);
-            }, 2000);
-        }) as Promise<String>;
+    @Loading('registration')
+    @OnErrorMessage({
+      title: 'Пользователь существует'
+    })
+    @Redirect('/success-registration')
+    async onSubmit (user: RegisterAccount) {
+      await Api.Auth.register(user)
     }
 
-    async mounted () {
-      this.name = await this.getUsername('Azat');
+    @Secured((user: CurrentUser) => !user.userRole, '/profile')
+    beforeCreate () {
     }
 
   }

@@ -72,16 +72,24 @@
   import Vue from "vue";
   import Component from "vue-class-component";
   import Components from '../../components';
+import { RegisterAccount } from "../../../api/Auth";
+import { Prop } from "vue-property-decorator";
 
   @Component({
       components: {
           Block: Components.Layout.Block,
           MButton: Components.Abstract.MButton,
+          MForm: Components.Abstract.MForm,
           Modal: Components.Abstract.Modal,
           MInput: Components.Abstract.MInput
       }
   })
   export default class MView extends Vue {
+    
+    @Prop()
+    onSubmit: (user: RegisterAccount) => Promise<void>
+    @Prop()
+    user: RegisterAccount
 
   }
 </script>
