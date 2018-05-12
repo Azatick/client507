@@ -33,5 +33,21 @@ export default [
             default: MVC.Support.Controller,
             wrapper: Components.Wrappers.ProfileWrapper
         }
+    },
+    {
+        path: '/',
+        name: 'main',
+        components: {
+            default: MVC.Main.Controller,
+            wrapper: Components.Wrappers.MainWrapper
+        }
+    },
+    {
+        path: '/tariff',
+        name: 'tariff',
+        components: {
+            default: MVC.Tariff.Controller,
+            wrapper: Components.Wrappers.ProfileWrapper
+        }
     }
 ]
