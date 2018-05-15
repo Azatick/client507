@@ -9,29 +9,17 @@
             </p>
 
             <div v-element="'content'">
-              <div v-block="'cell'">
-                <p v-element="'title'">Интернет</p>
-                <p v-element="'value'">
-                  20 ГБ
-                </p>
+              <div class="list">
+                <ul>
+                  <li>20 ГБ</li>
+                  <li>1500 мин на все сети</li>
+                  <li>1000 sms</li>
+                </ul>
               </div>
-
-              <div v-block="'cell'">
-                <p v-element="'title'">Звонки</p>
-                <p v-element="'value'">
-                  1500 мин. на все сети
-                </p>
-              </div>
-
-              <div v-block="'cell'">
-                <p v-element="'title'">SMS</p>
-                <p v-element="'value'">
-                  1000 в день
-                </p>
-              </div>
+              <!---->
               <hr>
               <div v-block="'connect'">
-                  <p v-element="'title'">500 rub/mounth</p>
+                  <p v-element="'title'">500 руб/мес</p>
                   <m-button
                           variant="outline-primary"
                   >Подключить</m-button>
@@ -151,17 +139,21 @@
   #tariff-info .content .body .cell {
       width: 100%;
   }
-
-  #tariff-info .content .body .cell div {
-      padding: 0 0 15px 20px;
-      display: inline-block;
-      width: calc(50% - 5px);
-      height: 100%;
+  .list {
+    position: relative;
+    width: 100%;
+    padding: 0 75px 0 25px;
   }
 
-  #tariff-info .cell:nth-child(1) div,
-  #tariff-info .cell:nth-child(1) div {
-      padding-top: 15px;
+  .list ul {
+    list-style-image: url('../../../assets/img/png/circle.png');
+    list-style-type: none;
+  }
+
+  .list li {
+    font-size: 28px;
+    color: #333;
+    margin: 15px 0 15px 10px
   }
 
   #tariff-info .cell .cell_title {
