@@ -10,22 +10,22 @@ export default [
             wrapper: Components.Wrappers.ProfileWrapper
         }
     },
-    {
-        path: "/login",
-        name: "login",
-        components: {
-            default: MVC.Login.Controller,
-            wrapper: Components.Wrappers.AuthWrapper
-        }
-    },
-    {
-        path: "/signup",
-        name: "signup",
-        components: {
-            default: MVC.Signup.Controller,
-            wrapper: Components.Wrappers.AuthWrapper
-        }
-    },
+    // {
+    //     path: "/login",
+    //     name: "login",
+    //     components: {
+    //         default: MVC.Login.Controller,
+    //         wrapper: Components.Wrappers.AuthWrapper
+    //     }
+    // },
+    // {
+    //     path: "/signup",
+    //     name: "signup",
+    //     components: {
+    //         default: MVC.Signup.Controller,
+    //         wrapper: Components.Wrappers.AuthWrapper
+    //     }
+    // },
     {
         path: '/support',
         name: 'support',
@@ -38,7 +38,15 @@ export default [
         path: '/',
         name: 'main',
         components: {
-            default: MVC.Main.Controller,
+            default: MVC.Signup.Controller,
+            wrapper: Components.Wrappers.MainWrapper
+        }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        components: {
+            default: MVC.Login.Controller,
             wrapper: Components.Wrappers.MainWrapper
         }
     },

@@ -1,70 +1,43 @@
 <template>
-    <div id="main">
-        <block class="content">
-            <div class="map-cont">
-                <div>
-                    <div class="text-cont-1">
-                        <span class="phrase1">
-                            Будь на связи в любой точке мира вместе с «Название»!
-                        </span>
-                    </div>
-                    <div class="map">
-
-                    </div>
-                </div>
-            </div>
-            <div class="reg-cont">
-                <div>
-                    <div class="text-cont-2">
-                        <span class="phrase2">
-                                Подключайтесь!
-                            <br>
-                            Первый месяц бесплатно.
-                        </span>
-                    </div>
-                    <div>
-                        <MForm :onSubmit="onSubmit" :model="user">
-                            <MInput
-                                    label="Логин (e-mail адрес)"
-                                    :validate="[$validators.email(), $validators.max(50)]"
-                                    required
-                                    name="email"
-                                    text="Ваш постоянный e-mail адрес"
-                                    autocomplete="email"
-                            />
-                            <MInput
-                                    label="Имя"
-                                    required
-                                    name="firstName"
-                                    autocomplete="given-name"
-                            />
-                            <MInput
-                                    label="Фамилия"
-                                    required
-                                    name="lastName"
-                                    autocomplete="family-name"
-                            />
-                            <MInput
-                                    label="Серия, паспорт"
-                                    :validate="[$validators.regexp(/^\d{4} \d{6}$/, 'Несоответствие шаблону: 1234 567890')]"
-                                    required
-                                    name="passportSeries"
-                                    type="text"
-                            />
-                            <MInput
-                                    label="Пароль"
-                                    :validate="[$validators.min(6)]"
-                                    required
-                                    name="password"
-                                    type="password"
-                                    autocomplete="new-password"
-                            />
-                            <MButton type="submit">Зарегистрироваться</MButton>
-                        </MForm>
-                    </div>
-                </div>
-            </div>
-        </block>
+    <div>
+        <MForm :onSubmit="onSubmit" :model="user">
+            <MInput
+                    label="Логин (e-mail адрес)"
+                    :validate="[$validators.email(), $validators.max(50)]"
+                    required
+                    name="email"
+                    text="Ваш постоянный e-mail адрес"
+                    autocomplete="email"
+            />
+            <MInput
+                    label="Имя"
+                    required
+                    name="firstName"
+                    autocomplete="given-name"
+            />
+            <MInput
+                    label="Фамилия"
+                    required
+                    name="lastName"
+                    autocomplete="family-name"
+            />
+            <MInput
+                    label="Серия, паспорт"
+                    :validate="[$validators.regexp(/^\d{4} \d{6}$/, 'Несоответствие шаблону: 1234 567890')]"
+                    required
+                    name="passportSeries"
+                    type="text"
+            />
+            <MInput
+                    label="Пароль"
+                    :validate="[$validators.min(6)]"
+                    required
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+            />
+            <MButton type="submit" class="signup-button">Зарегистрироваться</MButton>
+        </MForm>
     </div>
 </template>
 
@@ -81,7 +54,8 @@ import { Prop } from "vue-property-decorator";
           MButton: Components.Abstract.MButton,
           MForm: Components.Abstract.MForm,
           Modal: Components.Abstract.Modal,
-          MInput: Components.Abstract.MInput
+          MInput: Components.Abstract.MInput,
+          Map: Components.Layout.Map
       }
   })
   export default class MView extends Vue {
@@ -94,19 +68,20 @@ import { Prop } from "vue-property-decorator";
   }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
     #main {
         padding: 40px;
         max-width: 1280px;
         margin: 0 auto;
     }
-    span {
-        vertical-align: top !important;
+    p {
+        text-align: center;
     }
     .content>div {
         padding: 0;
     }
     .map-cont {
+        vertical-align: top !important;
         height: 100%;
         display: inline-block;
         width: 66%;
@@ -137,8 +112,5 @@ import { Prop } from "vue-property-decorator";
         text-align: center;
         font-size: 24px;
         color: rgb(74,74,74);
-    }
-    .map {
-        margin: 40px;
     }
 </style>
