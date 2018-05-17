@@ -6617,6 +6617,10 @@ vue-types@^1.2.2:
   dependencies:
     lodash.isplainobject "4.0.6"
 
+vue-yandex-maps@^0.7.9:
+  version "0.7.9"
+  resolved "https://registry.yarnpkg.com/vue-yandex-maps/-/vue-yandex-maps-0.7.9.tgz#f31033c4609ac290c6ff37023b81e4d3a734e81b"
+
 vue@^2.1.10, vue@^2.5.16:
   version "2.5.16"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.5.16.tgz#07edb75e8412aaeed871ebafa99f4672584a0085"
