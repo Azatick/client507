@@ -1,16 +1,16 @@
 <template>
     <b-modal
-            v-model="modalState"
-            :title="title"
-            :close-on-backdrop="false"
-            :close-on-esc="false"
-            centered
-            ok-title="Ок"
-            cancel-title="Отмена"
-            @ok="onOk"
-            @cancel="onCancel"
-            :hide-footer="type == 'default'"
-            :ok-only="type == 'alert'"
+        v-model="modalState"
+        :title="title"
+        :close-on-backdrop="false"
+        :close-on-esc="false"
+        centered
+        ok-title="Ок"
+        cancel-title="Отмена"
+        @ok="onOk"
+        @cancel="onCancel"
+        :hide-footer="type == 'default'"
+        :ok-only="type == 'alert'"
     >
         <div class="modal__content">
             <slot/>

@@ -17,14 +17,10 @@
 
     @Component
     export default class MFormElement extends Vue {
-        @Prop()
-        label: string
-        @Prop()
-        text: string
-        @Prop()
-        errorMessage: string
-        @Prop()
-        name: string
+        @Prop() label: string
+        @Prop() text: string
+        @Prop() errorMessage: string
+        @Prop() name: string
     }
 </script>
 

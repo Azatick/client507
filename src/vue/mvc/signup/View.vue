@@ -74,11 +74,9 @@
   })
   export default class MView extends Vue {
 
-      @Prop()
-      user: User;
+      @Prop() user: User;
 
-      @Prop()
-      onSubmit: (user: User) => Promise<void>
+      @Prop() onSubmit: (user: User) => Promise<void>
 
   }
 </script>

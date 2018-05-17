@@ -1,10 +1,21 @@
 <template>
-    <MView :name="name" />
+    <MView
+      :chats="chats"
+      :onChatClick="onChatClick"
+      :currentRoom="currentRoom"
+      :onCreateRoom="createModal"
+      :newRoom="newRoom"
+      :cancelModal="cancelModal"
+      :submitModal="submitModal"
+    />
 </template>
 
 <script lang="ts">
   import Vue from "vue";
   import Component from "vue-class-component";
+  import { ChatRoom } from '../../../models/Chat';
+  import Loading from "../../../annotations/vue/Loading";
+  import { Modal } from "../../../annotations/vue/Modals";  
 
   import MView from "./View.vue";
 
@@ -15,20 +26,72 @@
   })
   export default class Controller extends Vue {
 
-    name: String = "Guest";
+    chats: ChatRoom[] = []
+    currentRoom: ChatRoom
+    newRoom: ChatRoom = {}
 
-    async getUsername (name: String) : Promise<String> {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(name);
-            }, 2000);
-        }) as Promise<String>;
+    @Loading('room')
+    async onChatClick (room: ChatRoom) {
+      if (this.currentRoom.id != room.id) {
+        this.currentRoom = room;
+        return new Promise(function (response, reject) {
+          setTimeout(function () {
+            response()
+          }, 2000)
+        })
+      }
     }
 
-    async mounted () {
-      this.name = await this.getUsername('Azat');
+    async loadChats () : Promise<ChatRoom[]> {
+      return new Promise<ChatRoom[]>(function (response, reject) {
+        setTimeout(function () {
+          var messages : ChatMessage[] = [
+            { text: 'Hi', time: new Date(), from: 'me' },
+            { text: 'Hi, my friend', time: new Date(), from: 'support' }
+          ]
+          response([
+            { id: 0, name: 'Изменение данных', messages },
+            { id: 1, name: 'Вопрос по тарифам', messages },
+            { id: 2, name: 'Списание средств', messages },            
+          ])
+        }, 2000)
+      })
     }
 
+    @Loading('roomList', 'Загрузка чатов')
+    async beforeMount () {
+      this.chats = await this.loadChats();
+      this.currentRoom = this.chats[0];
+    }
+
+    @Modal("createRoom")
+    createModal () {
+
+    }
+
+    submitModal () {
+      console.log(this.newRoom);
+    }
+
+    cancelModal () {
+      this.$store.commit('Modals/set', {
+        name: 'createRoom',
+        visible: false,
+        success: true
+      });
+      this.newRoom = {};
+    }
+
+  }
+  export interface NewChatRoom {
+    name: string
+    text: string
+    messages: ChatMessage[]
+  }
+  export interface ChatMessage {
+    text: string
+    time: Date
+    from: 'me' | 'support'
   }
 </script>
 
