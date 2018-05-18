@@ -10,27 +10,51 @@ export default [
             wrapper: Components.Wrappers.ProfileWrapper
         }
     },
-    {
-        path: "/login",
-        name: "login",
-        components: {
-            default: MVC.Login.Controller,
-            wrapper: Components.Wrappers.AuthWrapper
-        }
-    },
-    {
-        path: "/signup",
-        name: "signup",
-        components: {
-            default: MVC.Signup.Controller,
-            wrapper: Components.Wrappers.AuthWrapper
-        }
-    },
+    // {
+    //     path: "/login",
+    //     name: "login",
+    //     components: {
+    //         default: MVC.Login.Controller,
+    //         wrapper: Components.Wrappers.AuthWrapper
+    //     }
+    // },
+    // {
+    //     path: "/signup",
+    //     name: "signup",
+    //     components: {
+    //         default: MVC.Signup.Controller,
+    //         wrapper: Components.Wrappers.AuthWrapper
+    //     }
+    // },
     {
         path: '/support',
         name: 'support',
         components: {
             default: MVC.Support.Controller,
+            wrapper: Components.Wrappers.ProfileWrapper
+        }
+    },
+    {
+        path: '/',
+        name: 'main',
+        components: {
+            default: MVC.Signup.Controller,
+            wrapper: Components.Wrappers.MainWrapper
+        }
+    },
+    {
+        path: '/login',
+        name: 'login',
+        components: {
+            default: MVC.Login.Controller,
+            wrapper: Components.Wrappers.MainWrapper
+        }
+    },
+    {
+        path: '/tariff',
+        name: 'tariff',
+        components: {
+            default: MVC.Tariff.Controller,
             wrapper: Components.Wrappers.ProfileWrapper
         }
     }

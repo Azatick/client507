@@ -21,8 +21,8 @@
             </MForm>
             <divider text="Или"/>
             <div class="login-form__footer">
+                <MButton to="/">Регистрация</MButton>
                 <MButton variant="secondary">Сброс пароля</MButton>
-                <MButton to="/signup">Регистрация</MButton>
             </div>
         </div>
     </Loading>
@@ -56,12 +56,12 @@
     }
 </script>
 
-<style lang="scss">
-    .login-form {
-        &__footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-around;
-        }
+<style lang="scss" scoped>
+    button {
+        width: 100%;
+    }
+    a {
+        margin-bottom: 10px;
+        width: 100%;
     }
 </style>

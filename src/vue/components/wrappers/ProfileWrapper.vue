@@ -1,5 +1,5 @@
 <template>
-    <main-wrapper>
+    <default-wrapper>
         <div v-block="'profile'">
             <div v-element="'menu'">
                 <block>
@@ -10,20 +10,20 @@
                 <slot/>
             </div>
         </div>
-    </main-wrapper>
+    </default-wrapper>
 </template>
 
 <script lang="ts">
     import Vue from 'vue'
 
     import {Component} from "vue-property-decorator"
-    import MainWrapper from './MainWrapper.vue'
+    import DefaultWrapper from './DefaultWrapper.vue'
     import Menu from '../layout/Menu.vue'
     import Block from '../layout/Block.vue'
 
     @Component({
         components: {
-            MainWrapper,
+            DefaultWrapper,
             MMenu: Menu,
             Block
         }

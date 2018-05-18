@@ -41,7 +41,6 @@ export default class Auth extends AxiosWrapper {
         try {
             return (await this.get<String, CurrentUser>("auth/currentUser"));
         } catch (e) {
-            console.dir(e);
             throw new Exceptions.UserNotAuthorizedException()
         }
 
@@ -55,6 +54,7 @@ export interface RegisterAccount {
     firstName: string;
     lastName: string;
     passportSeries: string;
+    republicId: number;
 }
 
 export interface AuthUser {

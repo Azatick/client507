@@ -29,12 +29,10 @@
         user = {}
 
         @Loading('registration')
-        @OnErrorMessage({
-            title: 'Пользователь существует'
-        })
+        @OnErrorMessage()
         @Redirect('/success-registration')
         async onSubmit (user: RegisterAccount) {
-            await Api.Auth.register(user)
+            await Api.Auth.register({...user, republicId: 3})
         }
 
         @Secured((user: CurrentUser) => !user.userRole, '/profile')

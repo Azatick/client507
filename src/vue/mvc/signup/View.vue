@@ -37,14 +37,6 @@
                         type="password"
                         autocomplete="new-password"
                 />
-                <MInput
-                        label="Повтор пароля"
-                        :validate="[$validators.required(), $validators.equalTo(user['password'], 'Оба пароля должны совпадать')]"
-                        name="passwordRepeat"
-                        type="password"
-                        ignoreModel
-                        autocomplete="new-password"
-                />
                 <MButton type="submit">Отправить</MButton>
             </MForm>
             <divider text="Или"/>
@@ -81,6 +73,11 @@
   }
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+    button {
+        width: 100%;
+    }
+    a {
+        width: 100%;
+    }
 </style>

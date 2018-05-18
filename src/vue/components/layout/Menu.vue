@@ -4,11 +4,11 @@
             <icon name="user"/>
             <span>Личный кабинет</span>
         </router-link>
-        <router-link to="#" v-element="'item'">
+        <router-link to="/tariff" v-element="'item'">
             <icon name="tools"/>
             <span>Тарифы</span>
         </router-link>
-        <router-link to="support" v-element="'item'">
+        <router-link to="/support" v-element="'item'">
             <icon name="support"/>
             <span>Тех. поддержка</span>
         </router-link>
