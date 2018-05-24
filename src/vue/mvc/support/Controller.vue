@@ -9,6 +9,7 @@
             :submitModal="submitModal"
             :submitMessage="submitMessage"
             :message="message"
+            :user="user"
     />
 </template>
 
@@ -18,9 +19,11 @@
     import {ChatRoom} from '../../../models/Chat';
     import Loading from "../../../annotations/vue/Loading";
     import {Modal} from "../../../annotations/vue/Modals";
+    import Api from '../../../api'
     import * as $ from 'jquery'
 
     import MView from "./View.vue";
+    import CurrentUser from "../../../models/CurrentUser";
 
     @Component({
         components: {
@@ -30,70 +33,79 @@
     export default class Controller extends Vue {
 
         chats: ChatRoom[] = []
-        currentRoom: ChatRoom = {}
-        newRoom: ChatRoom = {}
+        currentRoom: ChatRoom = { messages: [] }
+        newRoom: { name?: string, message?: string } = {}
         message: { text?: string } = {}
+        timer: number
+        user: CurrentUser = {}
 
         @Loading('room')
         async onChatClick(room: ChatRoom) {
             if (this.currentRoom.id != room.id) {
                 this.currentRoom = room;
-                return new Promise(function (response, reject) {
-                    setTimeout(function () {
-                        response()
-                    }, 2000)
-                })
+                await this.getMessages();
             }
         }
 
-        async loadChats(): Promise<ChatRoom[]> {
-            return new Promise<ChatRoom[]>(function (response, reject) {
-                setTimeout(function () {
-                    var messages: ChatMessage[] = [
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                        {text: 'Hi', time: new Date(), from: 'me'},
-                        {text: 'Hi, my friend', time: new Date(), from: 'support'},
-                    ]
-                    response([
-                        {id: 0, name: 'Изменение данных', messages},
-                        {id: 1, name: 'Вопрос по тарифам', messages},
-                        {id: 2, name: 'Списание средств', messages},
-                    ])
-                }, 2000)
-            })
+        async loadChats() {
+            let dialogs = await Api.Support.getDialogs();
+            this.chats = dialogs.map(d => ({
+                name: d.subject,
+                id: d.dialogueId,
+                messages: []
+            }));
         }
 
-        @Loading('roomList', 'Загрузка чатов')
-        async beforeMount() {
-            this.chats = await this.loadChats();
+        async getMessages () {
+            this.currentRoom.messages = await Api.Support.getChatHistory(this.currentRoom.id) as any || []
             let $messages = $('#messages');
             $messages.animate({
                 scrollTop: Number.MAX_SAFE_INTEGER
             }, 500)
-            console.log($messages.outerHeight())
+        }
+
+        @Loading('roomList', 'Загрузка чатов')
+        async beforeMount() {
+            this.user = (await Api.Auth.userInfo()).data
+            await this.loadChats();
             this.currentRoom = this.chats[0];
+            await this.getMessages();
         }
 
-        @Modal("createRoom") createModal() {
+        async mounted () {
+            this.timer = setInterval(async () => {
+                this.currentRoom.messages = await Api.Support.getChatHistory(this.currentRoom.id) as any || []
+                await this.loadChats();
+            }, 1000)
         }
 
-        submitModal() {
-            console.log(this.newRoom);
+        @Modal("createRoom") createModal() {}
+
+        @Loading('createDialog', 'Создание заявки')
+        async submitModal() {
+            let supports = await Api.Support.getSupports();
+            let dialogId = await Api.Support.createDialog({
+                subject: this.newRoom.name,
+                toUserEmail: "testUser9552@mail.ru"
+            })
+            await Api.Support.sendMessage({
+                dialogueId: dialogId,
+                text: this.newRoom.message
+            })
+            await this.loadChats();
+            this.currentRoom = this.chats.slice(-1)[0]
+            await this.getMessages();
+            this.cancelModal()
         }
 
+        @Loading('textarea')
         async submitMessage() {
-            console.log(this.message.text)
+            await Api.Support.sendMessage({
+                dialogueId: this.currentRoom.id,
+                text: this.message.text
+            })
+            this.message.text = undefined;
+            await this.getMessages()
         }
 
         cancelModal() {

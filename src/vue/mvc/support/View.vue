@@ -16,18 +16,23 @@
                     </div>
                 </ul>
             </Loading>
-            <button @click="onCreateRoom" class="createButton">Создать заявку</button>
+            <button v-if="user.userRole == 'Customer'" @click="onCreateRoom" class="createButton">Создать заявку</button>
         </div>
         <div v-element="'right'">
             <Loading name="room">
                 <div v-block="'messages'" id="messages">
+                    <div v-if="currentRoom.messages.length == 0" v-element="'empty'">
+                        Список сообщений пуст
+                    </div>
                     <div
                             v-for="(message, index) in currentRoom.messages"
                             :key="index"
-                            v-element="`item-${message.from}`"
+                            v-element="`item-${message.role == user.userRole ? 'me' : 'people'}`"
                             class="messages__item"
                     >
-                        <p class="messages__item-from">{{ message.from == 'me' ? 'Я' : 'Сотрудник технической поддержки'
+                        <p class="messages__item-from">{{
+                            message.role == user.userRole ?
+                            'Я' : user.userRole == "Customer" ? 'Сотрудник технической поддержки' : 'Клиент'
                             }}</p>
                         <p class="messages__item-text">
                             {{ message.text }}
@@ -37,8 +42,9 @@
                 <div v-block="'textarea'">
                     <m-form :onSubmit="submitMessage" :model="message">
                         <MTextarea
-                                :validate="[$validators.max(500)]"
+                                :validate="[$validators.max(500), $validators.min(1, user.userRole == 'Customer' ? 'Опишите свою проблему' : 'Дайте развернутый ответ')]"
                                 name="text"
+                                :text="user.userRole == 'Customer' ? 'Опишите свою проблему' : 'Дайте развернутый ответ'"
                                 :rows="3"
                                 :max-rows="8"
                                 no-resize
@@ -49,28 +55,33 @@
             </Loading>
         </div>
         <modal title="Создать заявку" name="createRoom">
-            <m-form :onSubmit="submitModal" :model="newRoom">
-                <MInput
-                        label="Название"
-                        :validate="[$validators.max(30)]"
-                        required
-                        name="name"
-                        text="Название заявки"
-                />
-                <MTextarea
-                        label="Текст сообщения"
-                        :validate="[$validators.max(500)]"
-                        required
-                        name="text"
-                        :rows="3"
-                        :max-rows="8"
-                        text="Опишите свою проблему"
-                />
-                <div class="modal-footer">
-                    <MButton @click.native="cancelModal" variant="outline-primary">Отмена</MButton>
-                    <MButton type="submit" variant="primary">Создать</MButton>
-                </div>
-            </m-form>
+            <Loading name="createDialog">
+                <m-form :onSubmit="submitModal" :model="newRoom">
+                    <MInput
+                            label="Название"
+                            :validate="[$validators.max(30)]"
+                            required
+                            name="name"
+                            text="Название заявки"
+                    />
+                    <Loading name="textarea">
+                        <MTextarea
+                                label="Текст сообщения"
+                                :validate="[$validators.max(500)]"
+                                required
+                                name="message"
+                                :rows="3"
+                                :max-rows="8"
+                                text="Опишите свою проблему"
+                        />
+                    </Loading>
+
+                    <div class="modal-footer">
+                        <MButton @click.native="cancelModal" variant="outline-primary">Отмена</MButton>
+                        <MButton type="submit" variant="primary">Создать</MButton>
+                    </div>
+                </m-form>
+            </Loading>
         </modal>
     </div>
 </template>
@@ -82,6 +93,7 @@
     import Components from '../../components';
     import {ChatRoom} from '../../../models/Chat';
     import {Prop} from "vue-property-decorator";
+    import CurrentUser from "../../../models/CurrentUser";
 
     @Component({
         components: {
@@ -104,6 +116,7 @@
         @Prop() submitModal: () => void
         @Prop() submitMessage: () => void
         @Prop() message: { text: string }
+        @Prop({ default: () => {} }) user: CurrentUser
 
     }
 </script>
@@ -138,14 +151,10 @@
             padding: 10px 20px;
             border-bottom: 1px solid #F4F4F9;
             transition: background .3s;
-            &:hover {
+            &:hover, &--active {
                 cursor: pointer;
-                background: rgba(#D6EEFB, .5);
-            }
-            &--active {
-                background: rgba(#D6EEFB, .5);
-                border-bottom: 1px solid rgba(#70C4F1, .4);
-                border-top: 1px solid rgba(#70C4F1, .4);
+                background: #20A0FF;
+                color: white;
             }
         }
     }
@@ -184,6 +193,12 @@
             height: 100%;
             overflow-y: auto;
         }
+        &__empty {
+            display: flex;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+        }
         &__item {
             box-shadow: 0 0 5px 0 rgba(black, .1);
             padding: 10px;
@@ -192,16 +207,17 @@
             margin-bottom: 15px;
             &-me {
                 align-self: flex-end;
-                background: rgba(#50BFFF, .4);
+                background: #50BFFF;
+                color: white;
                 & .messages__item-from {
                     color: white;
                 }
             }
-            &-support {
+            &-people {
                 align-self: flex-start;
             }
             &-from {
-                color: rgba(#50BFFF, .4);
+                color: #50BFFF;
                 font-size: em(14);
             }
         }

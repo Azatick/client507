@@ -43,7 +43,7 @@
         @OnErrorMessage({
             title: 'Вы не авторизованы'
         })
-        @Secured((user: CurrentUser) => user.userRole == 'Customer')
+        @Secured((user: CurrentUser) => !!user.userRole)
         async beforeCreate() {
         }
 
