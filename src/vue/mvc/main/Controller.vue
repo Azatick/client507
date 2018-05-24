@@ -27,10 +27,7 @@
         longitude: number;
 
         async created() {
-            console.log(this.latitude, this.longitude)
-
             var a = await Api.Geo.get(this.latitude, this.longitude);
-            alert(a)
         }
 
         user = {}

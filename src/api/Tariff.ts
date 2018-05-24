@@ -1,13 +1,11 @@
 import AxiosWrapper from "./AxiosWrapper";
 import Tariff from "../models/Tariff";
 
-export default class Profile extends AxiosWrapper {
+export default class TariffApi extends AxiosWrapper {
 
     static async changeTariff (tariffId: number) {
         return (await this.get<ChangeTariffDto, boolean>("changeTariff", {
-            params: {
-                tariffId
-            }
+            tariffId
         }));
     }
 

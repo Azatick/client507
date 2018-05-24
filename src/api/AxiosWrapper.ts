@@ -1,13 +1,14 @@
 import axios, { AxiosResponse, AxiosAdapter, AxiosBasicCredentials, AxiosTransformer, AxiosProxyConfig, CancelToken } from "axios";
 import * as _ from 'lodash'
+import {param} from 'jquery'
 
 const api = "http://itis-mobile.azurewebsites.net/api/"
 
 export default class AxiosWrapper {
 
-    static async get<ParamsType, DataType> (path: string, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
+    static async get<ParamsType, DataType> (path: string, data?: ParamsType, config?: AxiosRequestConfig<ParamsType>) : Promise<AxiosResponse<DataType>> {
         let token = localStorage.getItem("auth_token")
-        return await axios.get(`${api}${path}`, _.merge(config, {
+        return await axios.get(`${api}${path}?${param(data || {})}`, _.merge(config, {
             headers: {
                 'authorization': token ? `Bearer ${token}` : ''
             }
