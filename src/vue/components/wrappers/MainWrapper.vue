@@ -10,6 +10,7 @@
                             </p>
                         </div>
                         <Map></Map>
+                        <div class="grad"></div>
                     </div>
                 </div>
                 <div class="reg-cont">
@@ -30,10 +31,12 @@
 </template>
 
 <script lang="ts">
-    import Vue from 'vue';
-    import Component from "vue-class-component";
+    import Vue from 'vue'
+    import Component from "vue-class-component"
     import DefaultWrapper from './DefaultWrapper.vue'
-    import Layout from '../layout';
+    import Layout from '../layout'
+    import Api from '../../../api'
+    import * as $ from 'jquery'
 
     @Component({
         components: {
@@ -43,8 +46,24 @@
             DefaultWrapper
         }
     })
-    export default class App extends Vue {
 
+    export default class App extends Vue {
+        republics: any;
+        stats: any;
+        max: number;
+
+        async created() {
+            this.republics = await Api.Map.allRepublics();
+            this.stats = await Api.Map.republicStats();
+            this.max = 0;
+            this.stats.map((v) => this.max = this.max < v.count ? v.count : this.max)
+            this.stats.map((v, i) => {
+                var pr = (v.count / this.max)
+                $('#' + this.republics[i].code)
+                    .css('fill', 'rgba(32, 160, 255,' + pr + ')')
+                    .attr("title", this.republics[i].name + ": " + v.count)
+            })
+        }
     }
 </script>
 
@@ -61,12 +80,11 @@
 
     .content > div {
         padding: 0;
+        display: flex;
     }
 
     .map-cont {
         vertical-align: top !important;
-        height: 100%;
-        display: inline-block;
         width: 66%;
     }
 
@@ -75,8 +93,6 @@
     }
 
     .reg-cont {
-        height: 100%;
-        display: inline-block;
         border-left: 1px solid #ececec;
         width: 33%;
     }
@@ -102,5 +118,16 @@
         text-align: center;
         font-size: 24px;
         color: rgb(74, 74, 74);
+    }
+
+    .grad {
+        margin: 30px auto 0 auto;
+        background: -webkit-linear-gradient(left, white, #20A0FF);
+        background: -moz-linear-gradient(left, white, #20A0FF);
+        background: -o-linear-gradient(left, white, #20A0FF);
+        background: linear-gradient(to right, white, #20A0FF);
+        width: 80%;
+        height: 40px;
+        border: 1px solid rgb(74, 74, 74);
     }
 </style>

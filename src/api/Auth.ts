@@ -50,6 +50,7 @@ export interface RegisterAccount {
     firstName: string;
     lastName: string;
     passportSeries: string;
+    republicId?: number;
 }
 
 export interface AuthUser {

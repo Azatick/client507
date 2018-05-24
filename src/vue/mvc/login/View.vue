@@ -17,7 +17,7 @@
                         type="password"
                         autocomplete="new-password"
                 />
-                <MButton type="submit">Отправить</MButton>
+                <MButton type="submit">Войти</MButton>
             </MForm>
             <divider text="Или"/>
             <div class="login-form__footer">

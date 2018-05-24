@@ -25,20 +25,41 @@
         }
     })
     export default class Controller extends Vue {
-
+        republic: string
+        latitude: number
+        longitude: number
         user = {}
+        data: any
+        republicId: number
+
+        async created() {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    this.latitude = position.coords.latitude;
+                    this.longitude = position.coords.longitude
+                    this.republic = (await Api.Geo.get(this.latitude, this.longitude))["results"][5]
+                        .address_components[0]
+                        .long_name;
+                    this.data = (await Api.Map.allRepublics())
+                    this.data.map((v) => {
+                        this.republicId = v.name.trim() === this.republic ? +v.id : undefined;
+                    })
+                }
+            )
+        }
 
         @Loading('registration')
         @OnErrorMessage({
             title: 'Пользователь существует'
         })
         @Redirect('/success-registration')
-        async onSubmit (user: RegisterAccount) {
+        async onSubmit(user: RegisterAccount) {
+            user.republicId = +this.republicId
             await Api.Auth.register(user)
         }
 
         @Secured((user: CurrentUser) => !user.userRole, '/profile')
-        beforeCreate () {
+        async beforeCreate() {
         }
 
     }

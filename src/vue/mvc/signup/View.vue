@@ -37,7 +37,7 @@
                         type="password"
                         autocomplete="new-password"
                 />
-                <MButton type="submit">Отправить</MButton>
+                <MButton type="submit">Зарегистрироваться</MButton>
             </MForm>
             <divider text="Или"/>
             <div class="register-form__footer">
