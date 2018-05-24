@@ -5,9 +5,7 @@ export default class Profile extends AxiosWrapper {
 
     static async changeTariff (tariff: string) {
         return (await this.get<ChangeTariffDto, boolean>("changeTariff", {
-          params: {
             tariff
-          }
         }));
     }
 
