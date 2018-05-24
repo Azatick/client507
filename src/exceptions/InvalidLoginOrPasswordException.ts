@@ -1,4 +1,3 @@
-import User from "../models/User";
 import AException from "./AException";
 import {RegisterAccount} from "../api/Auth";
 

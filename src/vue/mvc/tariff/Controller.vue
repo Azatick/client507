@@ -1,35 +1,53 @@
 <template>
-    <MView :name="name" />
+    <MView
+            :tariffs="tariffs"
+            :onChangeTariff="changeTariff"
+    />
 </template>
 
 <script lang="ts">
-  import Vue from "vue";
-  import Component from "vue-class-component";
+    import Vue from "vue";
+    import Component from "vue-class-component";
 
-  import MView from "./View.vue";
+    import MView from "./View.vue";
+    import Tariff from "../../../models/Tariff";
+    import Api from '../../../api'
+    import {Modal} from "../../../annotations/vue/Modals";
+    import {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
+    import CurrentUser from "../../../models/CurrentUser";
+    import Secured from "../../../annotations/vue/Secured";
+    import Loading from "../../../annotations/vue/Loading";
 
-  @Component({
-    components: {
-      MView
+    @Component({
+        components: {
+            MView
+        }
+    })
+    export default class Controller extends Vue {
+
+        tariffs: Tariff[] = []
+
+        @Modal('changeTariff', 'confirm')
+        async changeTariff (id: number) {
+            await Api.Tariff.changeTariff(id);
+            this.successChanging()
+        }
+
+        @Modal('successChanging') successChanging () {}
+
+        @Loading('tariffs')
+        async mounted() {
+            this.tariffs = await Api.Tariff.getTariffs();
+        }
+
+        @OnErrorMessage({
+            title: 'Вы не авторизованы'
+        })
+        @Secured((user: CurrentUser) => !!user.userRole)
+        async beforeCreate() {
+        }
+
     }
-  })
-  export default class Controller extends Vue {
-
-    name: String = "Guest";
-
-    async getUsername (name: String) : Promise<String> {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(name);
-            }, 2000);
-        }) as Promise<String>;
-    }
-
-    async mounted () {
-      this.name = await this.getUsername('Azat');
-    }
-
-  }
 </script>
 
 <style>

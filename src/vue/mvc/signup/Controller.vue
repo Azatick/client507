@@ -49,9 +49,7 @@
         }
 
         @Loading('registration')
-        @OnErrorMessage({
-            title: 'Пользователь существует'
-        })
+        @OnErrorMessage()
         @Redirect('/success-registration')
         async onSubmit(user: RegisterAccount) {
             user.republicId = +this.republicId
@@ -59,7 +57,7 @@
         }
 
         @Secured((user: CurrentUser) => !user.userRole, '/profile')
-        async beforeCreate() {
+        beforeCreate () {
         }
 
     }

@@ -9,7 +9,11 @@ export default class Auth extends AxiosWrapper {
             var result = (await this.post<RegisterAccount, AuthResponse>("registration", account));
             return result;
         } catch (e) {
-            throw new Exceptions.UserRegisteredException(account)
+            if (e.response.status == 500) {
+                throw new Exceptions.InternalServerError()
+            } else if (e.response.data.DuplicateUserName) {
+                throw new Exceptions.UserRegisteredException(account)
+            }
         }
     }
 

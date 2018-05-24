@@ -42,16 +42,12 @@
                         </block>
                     </div>
                     <div v-block="'profile-row'" class="tariff-row">
-                        <block class="tariff" :title="`Тариф ${data.currentTariff}`">
+                        <block class="tariff" :title="`Тариф ${data.tariff.name}`">
 
                             <div class="body">
-                                <dropdown
-                                        variant="primary"
-                                        class="profile-select"
-                                        :value="{ title: data.currentTariff,  value: data.currentTariff}"
-                                        :items="tariffs"
-                                        :onSelect="onChangeTariff"
-                                />
+                                <m-button variant="primary" to="/tariff">
+                                    Изменить
+                                </m-button>
                             </div>
                         </block>
                     </div>
@@ -66,13 +62,6 @@
                     </router-link>
                 </block>
             </div>
-
-            <modal title="Вы уверены?" type="confirm" name="changeTariff">
-                <p>
-                    Вы хотите сменить тариф {{ data.currentTariff }}. <br/>
-                    Подтвердите действие.
-                </p>
-            </modal>
         </div>
     </Loading>
 </template>

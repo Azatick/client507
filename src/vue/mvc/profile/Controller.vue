@@ -1,8 +1,6 @@
 <template>
     <MView
             :data="data"
-            :tariffs="tariffs"
-            :onChangeTariff="onChangeTariff"
     />
 </template>
 
@@ -17,7 +15,6 @@
     import CurrentUser from "../../../models/CurrentUser";
     import {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
     import ProfileData from "../../../models/ProfileData";
-    import { Modal } from "../../../annotations/vue/Modals";
     import Loading from "../../../annotations/vue/Loading";
     import Components from '../../components'
 
@@ -31,12 +28,11 @@
     export default class Controller extends Vue {
 
         data: ProfileData = {}
-        tariffs = ['Smart', 'Middle', 'Start'].map(v => ({ title: v, value: v }))
 
         @OnErrorMessage({
             title: 'Вы не авторизованы'
         })
-        @Secured((user: CurrentUser) => user.userRole == 'Customer')
+        @Secured((user: CurrentUser) => !!user.userRole)
         async beforeCreate() {
             await this.synchronizeProfile()
         }
@@ -50,12 +46,6 @@
                 serviceCount: 5
             } as ProfileData;
             this.data = data;
-        }
-
-        @Modal("changeTariff", "confirm")
-        async onChangeTariff (tariff: string) {
-            await Api.Profile.changeTariff(tariff)
-            await this.synchronizeProfile()
         }
 
     }

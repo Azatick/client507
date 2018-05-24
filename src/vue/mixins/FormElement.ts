@@ -32,8 +32,6 @@ export default class FormElement extends Vue {
     addValidatorToForm: (key: string, validate: (value: string) => void) => void
     //--
 
-    @Prop(Boolean)
-    isRequired: boolean
     @Prop(String)
     label: string
     @Prop(String)
@@ -47,7 +45,7 @@ export default class FormElement extends Vue {
     @Prop(Boolean)
     required: boolean
 
-    validationResult: ValidateResult = {};
+    validationResult: ValidateResult = {}
 
     blured: boolean = false;
 
@@ -65,8 +63,9 @@ export default class FormElement extends Vue {
     validation (value: any) {
         this.blured = true;
         value = value || this.innerValue
-        for (let i = 0; i < this.validate.length; i++) {
-            let v = this.validate[i](value);
+        let validators = this.required ? [this.$validators.required(), ...this.validate] : this.validate;
+        for (let i = 0; i < validators.length; i++) {
+            let v = validators[i](value);
             if (v.hasError) {
                 this.validationResult = v
                 this.blockForm(true)
@@ -79,8 +78,9 @@ export default class FormElement extends Vue {
     }
 
     mounted () {
-        if (this.required) this.validate.unshift(this.$validators.required())
-        if (!this.model[name] && !this.ignoreModel) this.onFormChange(this.name, "")
+        if (!this.model[name] && !this.ignoreModel) {
+            this.onFormChange(this.name, "")
+        }
         this.addValidatorToForm(this.name, this.validation)
     }
 

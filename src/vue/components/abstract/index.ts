@@ -7,6 +7,7 @@ import Loading from './Loading.vue'
 import Icon from './Icon.vue'
 import Dropdown from './Dropdown.vue'
 import Modal from './Modal.vue'
+import MTextarea from './MTextarea.vue'
 
 export default {
 	MButton,
@@ -17,5 +18,6 @@ export default {
 	Loading,
 	Icon,
     Dropdown,
-	Modal
+	Modal,
+	MTextarea
 }

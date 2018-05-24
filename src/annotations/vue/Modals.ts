@@ -9,7 +9,6 @@ export function Modal (name: string, type: ModalType = "default") {
                 if (type != "default") {
                     let timer = setInterval(async function () {
                         let success = store.getters['Modals/get'](name).success;
-                        console.log('success', success)
                         if (success) {
                             clearInterval(timer)
                             result = await value.value.apply(self, args)

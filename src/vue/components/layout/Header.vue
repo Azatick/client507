@@ -7,7 +7,7 @@
 
 			<b-collapse is-nav id="nav_collapse">
 
-				<b-navbar-nav class="ml-auto">
+				<b-navbar-nav v-if="loggedIn" class="ml-auto">
 
 					<b-nav-item @click="logout">Выйти</b-nav-item>
 
@@ -21,10 +21,16 @@
 <script lang="ts">
 	import Vue from 'vue'
 	import Api from '../../../api'
-    import {Component} from "vue-property-decorator";
+    import {Component, Prop} from "vue-property-decorator";
 
 	@Component
 	export default class Header extends Vue {
+
+	    loggedIn: boolean = false
+
+		async created () {
+	        this.loggedIn = !!(await Api.Auth.userInfo()).data;
+		}
 
 	    async logout () {
 	        await Api.Auth.logout();
