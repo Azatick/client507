@@ -51,6 +51,6 @@ export interface DialogDTO {
 
 export interface ChatMessage {
     text: string
-    time: number
+    time: number | string
     role: "Customer" | "Admin" | "Support"
 }

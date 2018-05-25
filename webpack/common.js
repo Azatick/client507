@@ -1,6 +1,7 @@
 const pp = require("project-paths"),
     path = require("path"),
-    projectMeta = require(pp.getA("/", "project.meta.json"));
+    projectMeta = require(pp.getA("/", "project.meta.json")),
+    webpack = require('webpack');
 
 const plugins = {
     extractTextPlugin: require("extract-text-webpack-plugin"),
@@ -37,9 +38,9 @@ module.exports = function (env) {
         },
 
         node: {
-    			fs: 'empty',
-    			net: 'empty'
-    		},
+            fs: 'empty',
+            net: 'empty'
+        },
 
         resolve: {
             extensions: [".js", ".jsx", ".ts", ".tsx", ".json", ".sass", ".scss", ".css", ".vue"],
@@ -141,6 +142,10 @@ module.exports = function (env) {
                 filename: "index.html",
                 chunks: ["vendors", "app"],
                 template: pp.getA("templates", "index.ejs")
+            }),
+            new webpack.ProvidePlugin({
+                $: 'jquery',
+                jQuery: 'jquery'
             })
         ]
     };

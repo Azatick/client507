@@ -24,6 +24,9 @@
 
     import MView from "./View.vue";
     import CurrentUser from "../../../models/CurrentUser";
+    import * as moment from 'moment'
+
+    moment.locale('ru')
 
     @Component({
         components: {
@@ -56,37 +59,48 @@
             }));
         }
 
-        async getMessages () {
+        async synchronizeMessages () {
             this.currentRoom.messages = await Api.Support.getChatHistory(this.currentRoom.id) as any || []
-            let $messages = $('#messages');
-            $messages.animate({
-                scrollTop: Number.MAX_SAFE_INTEGER
-            }, 500)
+            console.log(this.currentRoom.messages)
+            let start = new Date();
+            start.setHours(0, 0, 0, 0);
+            this.currentRoom.messages = this.currentRoom.messages.map(message => ({
+                ...message,
+                time: moment(message.time).format('Do MMMM YYYY в HH:mm:ss')
+            }))
+        }
+
+        async getMessages () {
+            if (this.currentRoom.id !== undefined) {
+                await this.synchronizeMessages();
+                let $messages = $('#messages');
+                $messages.animate({
+                    scrollTop: Number.MAX_SAFE_INTEGER
+                }, 500)
+            }
         }
 
         @Loading('roomList', 'Загрузка чатов')
-        async beforeMount() {
+        async mounted () {
             this.user = (await Api.Auth.userInfo()).data
             await this.loadChats();
             this.currentRoom = this.chats[0];
-            await this.getMessages();
-        }
-
-        async mounted () {
-            this.timer = setInterval(async () => {
-                this.currentRoom.messages = await Api.Support.getChatHistory(this.currentRoom.id) as any || []
-                await this.loadChats();
-            }, 1000)
+            if (this.currentRoom.id !== undefined) {
+                await this.getMessages();
+                this.timer = setInterval(async () => {
+                    await this.synchronizeMessages();
+                    await this.loadChats();
+                }, 1000)
+            }
         }
 
         @Modal("createRoom") createModal() {}
 
         @Loading('createDialog', 'Создание заявки')
         async submitModal() {
-            let supports = await Api.Support.getSupports();
             let dialogId = await Api.Support.createDialog({
                 subject: this.newRoom.name,
-                toUserEmail: "testUser9552@mail.ru"
+                toUserEmail: "support@site.ru"
             })
             await Api.Support.sendMessage({
                 dialogueId: dialogId,

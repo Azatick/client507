@@ -30,10 +30,13 @@
                             v-element="`item-${message.role == user.userRole ? 'me' : 'people'}`"
                             class="messages__item"
                     >
-                        <p class="messages__item-from">{{
-                            message.role == user.userRole ?
-                            'Я' : user.userRole == "Customer" ? 'Сотрудник технической поддержки' : 'Клиент'
-                            }}</p>
+                        <div class="messages__item-info">
+                            <p class="messages__item-from">{{
+                                message.role == user.userRole ?
+                                'Я' : user.userRole == "Customer" ? 'Сотрудник технической поддержки' : 'Клиент'
+                                }}</p>
+                            <p class="messages__item-time">{{ message.time }}</p>
+                        </div>
                         <p class="messages__item-text">
                             {{ message.text }}
                         </p>
@@ -203,22 +206,37 @@
             box-shadow: 0 0 5px 0 rgba(black, .1);
             padding: 10px;
             border-radius: 4px;
-            width: 70%;
+            width: 80%;
             margin-bottom: 15px;
+            &-info {
+                display: flex;
+                justify-content: space-between;
+                padding-bottom: 10px;
+                border-bottom: 1px solid rgba(white, .4);
+                margin-bottom: 10px;
+                font-size: em(14);
+            }
+            &-text {
+                text-align: left;
+            }
             &-me {
                 align-self: flex-end;
                 background: #50BFFF;
                 color: white;
                 & .messages__item-from {
                     color: white;
+                    text-align: right;
                 }
             }
             &-people {
                 align-self: flex-start;
+                & .messages__item-info {
+                    border-color: rgba(black, .1);
+                }
             }
             &-from {
                 color: #50BFFF;
-                font-size: em(14);
+                text-align: left;
             }
         }
     }

@@ -11,13 +11,13 @@
 
     import MView from "./View.vue"
     import Api from '../../../api'
-    import Exceptions from '../../../exceptions'
     import Message, {OnErrorMessage} from "../../../annotations/vue/MessageAnnotations";
     import {RegisterAccount} from "../../../api/Auth";
     import Loading from "../../../annotations/vue/Loading";
     import Redirect from "../../../annotations/vue/Redirect";
     import Secured from "../../../annotations/vue/Secured";
     import CurrentUser from "../../../models/CurrentUser";
+    import * as _ from 'lodash'
 
     @Component({
         components: {
@@ -41,9 +41,7 @@
                         .address_components[0]
                         .long_name;
                     this.data = (await Api.Map.allRepublics())
-                    this.data.map((v) => {
-                        this.republicId = v.name.trim() === this.republic ? +v.id : undefined;
-                    })
+                    this.republicId = _.find(this.data, o => o.name.trim() == this.republic).id || 1
                 }
             )
         }
@@ -52,8 +50,9 @@
         @OnErrorMessage()
         @Redirect('/success-registration')
         async onSubmit(user: RegisterAccount) {
-            user.republicId = +this.republicId
+            user.republicId = this.republicId
             await Api.Auth.register(user)
+            return user;
         }
 
         @Secured((user: CurrentUser) => !user.userRole, '/profile')

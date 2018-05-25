@@ -9,6 +9,12 @@ export default class Profile extends AxiosWrapper {
         }));
     }
 
+    static async upBalance (balance: number) {
+        return (await this.get('upBalance', {
+            sum: balance
+        }))
+    }
+
 }
 
 interface ChangeTariffDto {

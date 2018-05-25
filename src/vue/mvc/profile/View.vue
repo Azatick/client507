@@ -34,9 +34,10 @@
                     <div v-block="'profile-row'" class="balance-row">
                         <block class="balance" title="Баланс">
                             <div class="balance__content">
-                                <p>{{data.balance_rub}}</p>
+                                <p>На вашем счету {{data.balance}} руб.</p>
                                 <m-button
                                         variant="outline-primary"
+                                        @click.native="onChangeBalance"
                                 >Пополнить</m-button>
                             </div>
                         </block>
@@ -53,16 +54,30 @@
                     </div>
                 </div>
             </div>
-
-            <div v-block="'profile-row'">
-                <block v-block="'services'">
-                    <router-link to="#" class="services__link">
-                        <span>{{ data.serviceCount }} подключенных услуг</span>
-                        <icon name="right-arrow"/>
-                    </router-link>
-                </block>
-            </div>
         </div>
+        <Modal title="Пополнение счета" name="changeBalance">
+            <Loading name="changeBalance">
+                <m-form :onSubmit="submitChangeBalance" :model="balance">
+                    <MInput
+                            label="Сумма"
+                            :validate="[$validators.number(v => v >= 5, 'Минимальная сумма платежа 5 руб.')]"
+                            required
+                            name="value"
+                            text="Сумма пополнения"
+                    />
+                    <div class="modal-footer">
+                        <MButton @click.native="cancelModal" variant="outline-primary">Отмена</MButton>
+                        <MButton type="submit" variant="primary">Создать</MButton>
+                    </div>
+                </m-form>
+            </Loading>
+        </Modal>
+        <modal
+                title="Баланс пополнен"
+                name="successChanging"
+        >
+            Вы успешно пополнили свой лицевой счет!
+        </modal>
     </Loading>
 </template>
 
@@ -72,13 +87,14 @@
     import Components from "../../components"
     import {Prop, Component} from "vue-property-decorator"
     import ProfileData from "../../../models/ProfileData"
-    import { DropdownItem } from '../../components/abstract/Dropdown.vue'
 
     @Component({
         components: {
             Menu: Components.Layout.Menu,
             Block: Components.Layout.Block,
             MButton: Components.Abstract.MButton,
+            MInput: Components.Abstract.MInput,
+            MForm: Components.Abstract.MForm,
             Icon: Components.Abstract.Icon,
             Dropdown: Components.Abstract.Dropdown,
             Modal: Components.Abstract.Modal,
@@ -86,9 +102,15 @@
         }
     })
     export default class MView extends Vue {
-        @Prop() data: ProfileData
-        @Prop() tariffs: DropdownItem[]
-        @Prop() onChangeTariff: (tariff: string) => Promise<void>
+        @Prop({
+            default: () => ({})
+        }) data: ProfileData = {
+            tariff: { id: 1, internet: 0, calls: 0, name: '', sms: 0, cost: 0 }
+        }
+        @Prop() onChangeBalance: () => void
+        @Prop() submitChangeBalance: () => Promise<void>
+        @Prop() cancelModal: () => void
+        @Prop({ default: () => ({}) }) balance: { value: number }
     }
 </script>
 

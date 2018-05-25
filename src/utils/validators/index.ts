@@ -25,6 +25,10 @@ export function regexp (reg: RegExp, message: string) {
     return validate(v => reg.test(v.toString()), message)
 }
 
+export function number (pre: (v: number) => boolean, message: string) {
+    return validate((v: string) => pre(+v), message)
+}
+
 function validate (validate: (value: any) => boolean, errorMessage: string) : (value: any) => ValidateResult {
     return function (value) {
         return {
@@ -51,6 +55,7 @@ const VueValidators = {
                     max,
                     min,
                     equalTo,
+                    number,
                     regexp
                 }
             })
@@ -66,7 +71,8 @@ declare module 'vue/types/vue' {
             max: (max: number, message?: string) => validateReturn<string>,
             min: (min: number, message?: string) => validateReturn<string>,
             equalTo: (value: string, message: string) => validateReturn<string>,
-            regexp: (reg: RegExp, message: string) => validateReturn<any>
+            regexp: (reg: RegExp, message: string) => validateReturn<any>,
+            number: (pre: (v:string) => boolean, message: string) => validateReturn<any>
         }
     }
 }

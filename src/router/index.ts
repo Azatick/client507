@@ -19,10 +19,11 @@ function prepareRoutes (routes: RouteConfig[]) {
         if (!route.components) {
             route.components = {
                 default: route.component,
-                wrapper: Components.Wrappers.MainWrapper
+                wrapper: Components.Wrappers.EmptyWrapper
             }
             route.component = undefined;
         }
+        route.name = route.name || route.path;
         return route;
     });
 }

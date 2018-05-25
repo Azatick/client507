@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/jquery": "^3.3.1",
+    "@types/moment": "^2.13.0",
     "@types/vue-router": "^2.0.0",
     "@types/webpack": "^4.1.2",
     "awesome-typescript-loader": "^4.0.1",
@@ -67,6 +68,7 @@
     "express-history-api-fallback": "^2.2.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.5",
+    "moment": "^2.22.1",
     "vue-yandex-maps": "^0.7.9"
   }
 }

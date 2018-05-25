@@ -1,7 +1,6 @@
 import Tariff from "./Tariff";
 
-type UserRole = "Customer"
-type UserTariff = "Smart"
+export type UserRole = "Customer" | 'Admin' | 'Support'
 
 export default interface CurrentUser {
     userRole?: UserRole

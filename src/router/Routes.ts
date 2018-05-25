@@ -4,31 +4,13 @@ import Components from "../vue/components";
 export default [
     {
         path: "/profile",
-        name: "profile",
         components: {
             default: MVC.Profile.Controller,
             wrapper: Components.Wrappers.ProfileWrapper
         }
     },
-    // {
-    //     path: "/login",
-    //     name: "login",
-    //     components: {
-    //         default: MVC.Login.Controller,
-    //         wrapper: Components.Wrappers.AuthWrapper
-    //     }
-    // },
-    // {
-    //     path: "/signup",
-    //     name: "signup",
-    //     components: {
-    //         default: MVC.Signup.Controller,
-    //         wrapper: Components.Wrappers.AuthWrapper
-    //     }
-    // },
     {
         path: '/support',
-        name: 'support',
         components: {
             default: MVC.Support.Controller,
             wrapper: Components.Wrappers.ProfileWrapper
@@ -36,7 +18,7 @@ export default [
     },
     {
         path: '/',
-        name: 'main',
+        exact: true,
         components: {
             default: MVC.Signup.Controller,
             wrapper: Components.Wrappers.MainWrapper
@@ -44,7 +26,6 @@ export default [
     },
     {
         path: '/login',
-        name: 'login',
         components: {
             default: MVC.Login.Controller,
             wrapper: Components.Wrappers.MainWrapper
@@ -52,10 +33,21 @@ export default [
     },
     {
         path: '/tariff',
-        name: 'tariff',
         components: {
             default: MVC.Tariff.Controller,
             wrapper: Components.Wrappers.ProfileWrapper
         }
+    },
+    {
+        path: '/success-registration',
+        component: MVC.SuccessRegistration.Controller
+    },
+    {
+        path: '/404',
+        component: MVC.Error404.Controller
+    },
+    {
+        path: '*',
+        redirect: '/404'
     }
 ]

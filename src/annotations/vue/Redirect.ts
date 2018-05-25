@@ -6,7 +6,11 @@ export default function Redirect (to: string, config: RedirectConfig = { on: 'su
                 try {
                     var result = await value.value.apply(this, args)
                     if (config.on == 'success') {
-                        this.$router.push(to)
+                        console.log(result)
+                        this.$router.push({
+                            name: to,
+                            params: result
+                        })
                     }
                     return result
                 } catch (e) {

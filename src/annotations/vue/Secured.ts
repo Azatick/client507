@@ -2,7 +2,7 @@ import auth from '../../api/Auth'
 import CurrentUser from "../../models/CurrentUser";
 import * as $ from 'jquery'
 
-export default function Secured(predicat: (user: CurrentUser) => boolean = (user: CurrentUser = {}) => !!user.userRole, redirectTo: string = '/login') {
+export default function Secured(predicat: (user: CurrentUser) => boolean = (user: CurrentUser = {}) => !!user.userRole, redirectTo: string = '/') {
     return (target: any, propertyKey: string, descriptor: any) => {
         let oldFunc = descriptor.value
         descriptor.value = async function (...args) {
@@ -17,6 +17,7 @@ export default function Secured(predicat: (user: CurrentUser) => boolean = (user
                 return result
             } catch (err) {
                 if (!predicat({})) {
+                    console.log('catched')
                     this.$router.push(redirectTo)
                 }
                 throw err

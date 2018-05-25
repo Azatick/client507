@@ -3,7 +3,7 @@
         <div v-block="'all-tariffs'">
             <block
                     v-block="'tariff-info'"
-                    v-element="item"
+                    v-element="'item'"
                     v-for="(tariff, index) in tariffs"
                     :key="index"
             >

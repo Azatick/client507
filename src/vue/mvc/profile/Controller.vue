@@ -1,6 +1,10 @@
 <template>
     <MView
             :data="data"
+            :balance="balance"
+            :onChangeBalance="onChangeBalance"
+            :submitChangeBalance="submitChangeBalance"
+            :cancelModal="cancelModal"
     />
 </template>
 
@@ -17,6 +21,7 @@
     import ProfileData from "../../../models/ProfileData";
     import Loading from "../../../annotations/vue/Loading";
     import Components from '../../components'
+    import {Modal} from "../../../annotations/vue/Modals";
 
     @Component({
         components: {
@@ -28,11 +33,12 @@
     export default class Controller extends Vue {
 
         data: ProfileData = {}
+        balance: { value?: number } = { value: 0 }
 
         @OnErrorMessage({
             title: 'Вы не авторизованы'
         })
-        @Secured((user: CurrentUser) => !!user.userRole)
+        @Secured((user: CurrentUser) => user.userRole == 'Customer', '/support')
         async beforeCreate() {
             await this.synchronizeProfile()
         }
@@ -46,6 +52,26 @@
                 serviceCount: 5
             } as ProfileData;
             this.data = data;
+        }
+
+        @Modal('changeBalance') onChangeBalance () {}
+        @Modal('successChanging') successChanging () {}
+
+        @Loading('changeBalance')
+        async submitChangeBalance () {
+            await Api.Profile.upBalance(this.balance.value)
+            await this.synchronizeProfile();
+            this.cancelModal();
+            this.successChanging();
+        }
+
+        cancelModal() {
+            this.$store.commit('Modals/set', {
+                name: 'changeBalance',
+                visible: false,
+                success: true
+            });
+            this.balance = {};
         }
 
     }

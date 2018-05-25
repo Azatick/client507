@@ -1,12 +1,12 @@
 <template>
     <default-wrapper>
         <div v-block="'profile'">
-            <div v-element="'menu'">
+            <div v-if="userRole == 'Customer'" v-element="'menu'">
                 <block>
                     <m-menu/>
                 </block>
             </div>
-            <div v-element="'content'">
+            <div v-element="'content'" :style="{ width: userRole == 'Customer' ? '75%' : '100%' }">
                 <slot/>
             </div>
         </div>
@@ -20,6 +20,8 @@
     import DefaultWrapper from './DefaultWrapper.vue'
     import Menu from '../layout/Menu.vue'
     import Block from '../layout/Block.vue'
+    import CurrentUser, {UserRole} from "../../../models/CurrentUser";
+    import Api from '../../../api'
 
     @Component({
         components: {
@@ -29,6 +31,16 @@
         }
     })
     export default class ProfileWrapper extends Vue {
+
+        userRole: UserRole = 'Customer';
+
+        async beforeMount () {
+
+            this.userRole = (await Api.Auth.userInfo()).data.userRole
+            console.log(this.userRole)
+
+        }
+
     }
 </script>
 
