@@ -10,6 +10,7 @@
     "prod": "npm run build && node ./prodServer",
     "heroku-postbuild": "npm run build"
   },
+  "node": "9.11.1",
   "devDependencies": {
     "@types/jquery": "^3.3.1",
     "@types/moment": "^2.13.0",
