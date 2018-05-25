@@ -61,7 +61,6 @@
 
         async synchronizeMessages () {
             this.currentRoom.messages = await Api.Support.getChatHistory(this.currentRoom.id) as any || []
-            console.log(this.currentRoom.messages)
             let start = new Date();
             start.setHours(0, 0, 0, 0);
             this.currentRoom.messages = this.currentRoom.messages.map(message => ({
@@ -84,7 +83,7 @@
         async mounted () {
             this.user = (await Api.Auth.userInfo()).data
             await this.loadChats();
-            this.currentRoom = this.chats[0];
+            this.currentRoom = this.chats[0] || { messages: [] };
             if (this.currentRoom.id !== undefined) {
                 await this.getMessages();
                 this.timer = setInterval(async () => {
